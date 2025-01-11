@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,40 @@ public class AnimationController : MonoBehaviour
     int isRunningHash;
     private bool moving;
     
-    
-    public void Animation(bool moving)
+    Vector3 previousPosition;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        previousPosition = transform.position;
+        
+        // more performant
+        isWalkingHash = Animator.StringToHash("isWalking");
+        isRunningHash = Animator.StringToHash("isRunning");
+    }
+
+    void Update()
+    {
+        Debug.Log($"previous position: {previousPosition}, transform.position: {transform.position}, difference: {Vector3.Distance(previousPosition, transform.position)}");
+        // Compare the current position with the previous position
+        if (Vector3.Distance(previousPosition, transform.position) > 0.01f)
+        {
+            moving = true;
+        }
+        else
+        {
+            moving = false;
+        }
+        
+        Debug.Log($"is moving: {moving}");
+        
+        Animation();
+        
+        previousPosition = transform.position;
+    }
+
+
+    void Animation()
     {
         
         bool isWalking = animator.GetBool(isWalkingHash);

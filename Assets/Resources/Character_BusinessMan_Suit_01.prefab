@@ -1050,6 +1050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runningSpeed: 5
   walinkingspeed: 2.5
+  rotationSpeed: 725
   forRunning: 304
 --- !u!54 &-3949379084505720211
 Rigidbody:
