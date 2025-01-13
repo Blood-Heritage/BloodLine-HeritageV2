@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.EventSystems;
 
-public class OpenLinkOnClick : MonoBehaviour
+public class OpenLinkOnClick : MonoBehaviour, IPointerClickHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    // Méthode de gestion du clic
+    public void OnPointerClick(PointerEventData eventData)
     {
+        // Récupère le texte cliqué
+        string clickedText = eventData.pointerPress.GetComponent<TextMeshProUGUI>().text;
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        // Ouvre l'URL dans un navigateur
+        Application.OpenURL("https://blood-heritage.github.io/"); // Remplace par ton lien réel
         
     }
 }
