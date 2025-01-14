@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using Photon.Pun;
 
@@ -31,6 +32,7 @@ public class MovementReborn : MonoBehaviourPun
     Vector3 moveDirection;
     Rigidbody rb;
     Animator animator;
+    public CinemachineFreeLook vc;
     
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,12 @@ public class MovementReborn : MonoBehaviourPun
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+    }
+
+
+    private void ChangeCameraPriority(int priority)
+    {
+        vc.Priority = priority;
     }
 
     private void Update()

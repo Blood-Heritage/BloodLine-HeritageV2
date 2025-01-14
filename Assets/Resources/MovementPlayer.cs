@@ -1,3 +1,4 @@
+using Cinemachine;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class PlayerMovement : MonoBehaviourPun
     public float walinkingspeed = 2.5f;
     public float rotationSpeed = 725f;
     public KeyCode forRunning = KeyCode.LeftShift;
-
+    public CinemachineVirtualCamera vc;
     
     void Update()
     {
@@ -17,6 +18,8 @@ public class PlayerMovement : MonoBehaviourPun
             return; // Ignore les mouvements des autres joueurs
         }
 
+        vc.Priority = 1;
+    
         // Gestion des mouvements (clavier : WASD ou fleches)
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");

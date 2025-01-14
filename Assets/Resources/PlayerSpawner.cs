@@ -1,14 +1,17 @@
+using Cinemachine;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerSpawner : MonoBehaviour
+public class PlayerSpawner : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab; // Prefab du personnage
     public Vector3 spawnPosition = new Vector3(80, 0, 56); // Position initiale du spawn
-
+    public int vcPriority = 20;
+    
+    
     void Start()
     {
-        // Verifie que le prefab est assign�
+        // Verifie que le prefab est assigne
         if (playerPrefab != null)
         {
             // Instancie le personnage pour ce joueur
@@ -17,6 +20,11 @@ public class PlayerSpawner : MonoBehaviour
             {
                 Debug.LogError("Player prefab is not assigned in the inspector!");
             }
+            
+            player.BroadcastMessage("ChangeCameraPriority", vcPriority);
+            vcPriority--;
+
+            // player.GetComponent<CinemachineVirtualCamera>().Priority;
 
             if (Camera.main == null)
             {
