@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
+using Photon.Pun;
 
-
-public class ThirdPersonCam : MonoBehaviour
+public class ThirdPersonCam : MonoBehaviourPun
 {
     public Transform orientation;
     public Transform player;
@@ -18,6 +18,12 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Update()
     {
+        // Verifie si le joueur controle ce personnage
+        if (!photonView.IsMine)
+        {
+            return; // Ignore les mouvements des autres joueurs
+        }
+        
         Vector3 viewDir = new Vector3(player.position.x, 0, player.position.z) - new Vector3(transform.position.x, 0, transform.position.z);
         orientation.forward = viewDir.normalized;
         

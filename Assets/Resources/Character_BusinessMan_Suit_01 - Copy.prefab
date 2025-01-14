@@ -962,7 +962,7 @@ GameObject:
   - component: {fileID: -7349470399614710659}
   - component: {fileID: 1156768632394632570}
   m_Layer: 0
-  m_Name: Character_BusinessMan_Suit_01
+  m_Name: Character_BusinessMan_Suit_01 - Copy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

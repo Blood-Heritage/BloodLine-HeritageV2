@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class MovementReborn : MonoBehaviour
+public class MovementReborn : MonoBehaviourPun
 {
     private float speed;
     public float moveSpeed;
@@ -44,6 +42,12 @@ public class MovementReborn : MonoBehaviour
 
     private void Update()
     {
+        // Verifie si le joueur controle ce personnage
+        if (!photonView.IsMine)
+        {
+            return; // Ignore les mouvements des autres joueurs
+        }
+        
         if (Input.GetKeyDown(forRunning)) speed = runningSpeed;
         else speed = moveSpeed;
         
