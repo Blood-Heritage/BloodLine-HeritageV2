@@ -8,7 +8,7 @@ public class PlayerSpawner : MonoBehaviour
 
     void Start()
     {
-        // Vérifie que le prefab est assigné
+        // Verifie que le prefab est assignï¿½
         if (playerPrefab != null)
         {
             // Instancie le personnage pour ce joueur
@@ -23,7 +23,7 @@ public class PlayerSpawner : MonoBehaviour
                 Debug.LogError("Main Camera is missing in the scene!");
             }
 
-            // Si une caméra doit suivre ce personnage, on la configure ici
+            // Si une camera doit suivre ce personnage, on la configure ici
             if (Camera.main != null && Camera.main.GetComponent<CameraController>() != null)
             {
                 Camera.main.GetComponent<CameraController>().target = player.transform;

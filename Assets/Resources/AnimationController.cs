@@ -12,13 +12,16 @@ public class AnimationController : MonoBehaviour
     int isWalkingHash;
     int isRunningHash;
     private bool moving;
+    private Rigidbody rb;
     
     Vector3 previousPosition;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        previousPosition = transform.position;
+        
+        previousPosition = rb.position;
         
         // more performant
         isWalkingHash = Animator.StringToHash("isWalking");
@@ -27,18 +30,10 @@ public class AnimationController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"previous position: {previousPosition}, transform.position: {transform.position}, difference: {Vector3.Distance(previousPosition, transform.position)}");
         // Compare the current position with the previous position
-        if (Vector3.Distance(previousPosition, transform.position) > 0.01f)
-        {
-            moving = true;
-        }
-        else
-        {
-            moving = false;
-        }
+        if (Vector3.Distance(previousPosition, transform.position) > 0.01f) moving = true;
+        else   moving = false;
         
-        Debug.Log($"is moving: {moving}");
         
         Animation();
         
