@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class AnimationController : MonoBehaviour
+public class AnimationController : MonoBehaviourPun
 {
     
     Animator animator;
@@ -30,10 +31,11 @@ public class AnimationController : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
+        
         // Compare the current position with the previous position
         if (Vector3.Distance(previousPosition, transform.position) > 0.01f) moving = true;
         else   moving = false;
-        
         
         Animation();
         
