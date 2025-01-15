@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 989689406}
-  nextSceneName: LobbyScene
+  nextSceneName: MenuStart
 --- !u!1 &816289166
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 989689406}
-  nextSceneName: LobbyScene
+  nextSceneName: MenuStart
 --- !u!114 &989689408
 MonoBehaviour:
   m_ObjectHideFlags: 0
