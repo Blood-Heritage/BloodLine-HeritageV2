@@ -86,7 +86,6 @@ public class MovementReborn : MonoBehaviourPun
         currentMovement.x = currentMovementInput.x;
         currentMovement.z = currentMovementInput.y;
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
-        Debug.Log(currentMovementInput);
     }
 
     private void Update()
