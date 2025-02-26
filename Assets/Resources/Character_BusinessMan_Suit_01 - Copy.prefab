@@ -962,6 +962,7 @@ GameObject:
   - component: {fileID: -7349470399614710659}
   - component: {fileID: 1156768632394632570}
   - component: {fileID: 768092432860539697}
+  - component: {fileID: -8103786273381869268}
   m_Layer: 0
   m_Name: Character_BusinessMan_Suit_01 - Copy
   m_TagString: Untagged
@@ -1217,6 +1218,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 8403264232569527900}
   follow: {fileID: 7643686649392443245}
+--- !u!114 &-8103786273381869268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d41728e9c5c4463896c8e9afb47f97b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 8403264232569527900}
+  player: {fileID: 7643686649392443245}
+  playerObj: {fileID: 472912}
+  rotationSpeed: 7
 --- !u!1 &131922
 GameObject:
   m_ObjectHideFlags: 0

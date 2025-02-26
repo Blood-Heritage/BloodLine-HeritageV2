@@ -16,12 +16,12 @@ public class ThirdPersonCam : MonoBehaviourPun
         Cursor.visible = false;
     }
 
-    public void SetVariablesCustom(Transform _orientation, Transform _player, Transform _playerObj)
-    {
-        orientation = _orientation;
-        player = _player;
-        playerObj = _playerObj;
-    }
+    // public void SetVariablesCustom(Transform _orientation, Transform _player, Transform _playerObj)
+    // {
+    //     orientation = _orientation;
+    //     player = _player;
+    //     playerObj = _playerObj;
+    // }
 
     private void Update()
     {
