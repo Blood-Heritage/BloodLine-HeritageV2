@@ -1,16 +1,26 @@
-
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.AI;
 
 public class MoveDestination : MonoBehaviourPun {
-
+    
     public NavMeshAgent agent;
     public Transform goal;
 
-       
-    void Start () {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.destination = goal.position; 
+    void Start() {
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>();
+
+        if (goal != null) {
+            agent.SetDestination(goal.position);
+        } else {
+            Debug.LogError("Aucun goal assigné au NPC !");
+        }
+    }
+
+    void Update() {
+        if (goal != null) {
+            agent.SetDestination(goal.position);
+        }
     }
 }
