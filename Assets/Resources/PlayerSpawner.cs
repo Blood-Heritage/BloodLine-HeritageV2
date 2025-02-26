@@ -23,28 +23,33 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             }
 
             var cinemachinecamera = Instantiate(CameraPrefab, spawnPosition, Quaternion.identity);
+            CinemachineFreeLook vcam = cinemachinecamera.GetComponentInChildren<CinemachineFreeLook>();
             
-            cinemachinecamera.BroadcastMessage("ChangeCameraPriority", vcPriority);
-            vcPriority--;
+            // vcam.BroadcastMessage("ChangeCameraPriority", vcPriority);
+            // vcPriority--;
+            
+            
+            vcam.Follow = player.transform;
+            vcam.LookAt = player.transform;
             
             // Transform _orientation, Transform _player, Transform _playerObj
             
             // get Helper
-            CameraHelper cameraHelper = player.GetComponentInChildren<CameraHelper>();
-            var helpers = cameraHelper.GetHelpers();
+            // CameraHelper cameraHelper = player.GetComponentInChildren<CameraHelper>();
+            // var helpers = cameraHelper.GetHelpers();
+            //
+            // Debug.Log($"orientation: {helpers.orientation}, follow: {helpers.follow}");
+            //
+            //
+            // // get ThirPerson script to set the variables
+            // ThirdPersonCam thirdPersonCamScript = cinemachinecamera.GetComponent<ThirdPersonCam>();
+            // if (thirdPersonCamScript == null)
+            // {
+            //     Debug.LogError("Third Person Camera Script Is NULL");
+            // }
             
-            Debug.Log($"orientation: {helpers.orientation}, follow: {helpers.follow}");
             
-            
-            // get ThirPerson script to set the variables
-            ThirdPersonCam thirdPersonCamScript = cinemachinecamera.GetComponent<ThirdPersonCam>();
-            if (thirdPersonCamScript == null)
-            {
-                Debug.LogError("Third Person Camera Script Is NULL");
-            }
-            
-            
-            thirdPersonCamScript.SetVariablesCustom(helpers.orientation, helpers.follow, player.transform);
+            // thirdPersonCamScript.SetVariablesCustom(helpers.orientation, helpers.follow, player.transform);
             
 
             if (Camera.main == null)
