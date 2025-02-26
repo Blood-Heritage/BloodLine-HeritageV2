@@ -22,7 +22,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
                 Debug.LogError("Player prefab is not assigned in the inspector!");
             }
 
-            var cinemachinecamera = Instantiate(CameraPrefab);
+            var cinemachinecamera = Instantiate(CameraPrefab, spawnPosition, Quaternion.identity);
             
             cinemachinecamera.BroadcastMessage("ChangeCameraPriority", vcPriority);
             vcPriority--;

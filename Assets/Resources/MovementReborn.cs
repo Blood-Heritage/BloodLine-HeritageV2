@@ -104,9 +104,9 @@ public class MovementReborn : MonoBehaviourPun
 
     private void Jump()
     {
+        animator.SetBool(isJumpingHash, true);
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-        animator.SetBool(isJumpingHash, true);
     }
 
     private void ResetJump()
