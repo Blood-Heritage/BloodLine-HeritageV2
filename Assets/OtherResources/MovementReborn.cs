@@ -92,14 +92,16 @@ public class MovementReborn : MonoBehaviourPun
     private void Update()
     {
         if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
+        
+        Vector3 movement = (transform.forward);
 
-        Vector3 movement = (transform.forward * currentMovement.z) + (currentMovement.x * transform.right);
-        if (isRunningPressed) movement *= runningSpeed;
-        else movement *= moveSpeed;
+        if (isMovementPressed)
+        {
+            if (isRunningPressed) movement *= runningSpeed;
+            else movement *= moveSpeed;
         
-        Debug.Log($"movement: {movement}");
-        
-        cc.Move(movement * Time.deltaTime);
+            cc.Move(movement * Time.deltaTime);
+        }
     }
 
     private void OnEnable()
