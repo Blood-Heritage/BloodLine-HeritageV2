@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 using Photon.Pun;
 
@@ -7,7 +8,7 @@ public class ThirdPersonCam : MonoBehaviourPun
     public Transform orientation;
     public Transform player;
     public Transform playerObj;
-    
+    public CinemachineVirtualCamera VirtualCamera;
     public float rotationSpeed;
 
     private void Start()
@@ -16,18 +17,16 @@ public class ThirdPersonCam : MonoBehaviourPun
         Cursor.visible = false;
     }
 
-    // public void SetVariablesCustom(Transform _orientation, Transform _player, Transform _playerObj)
-    // {
-    //     orientation = _orientation;
-    //     player = _player;
-    //     playerObj = _playerObj;
-    // }
+    public void SetCameraObjectCustom(CinemachineVirtualCamera cameraObject)
+    {
+        VirtualCamera = cameraObject;
+    }
 
     private void Update()
     {
-        if (orientation == null || player == null || playerObj == null)
+        if (orientation == null || player == null || playerObj == null ||  VirtualCamera == null)
         {
-            Debug.Log("orientation | player | playerObj in thirdPerson camera null");
+            Debug.Log("orientation | player | playerObj | VirtualCamera in thirdPersonCam null");
             return;
         }    
         
@@ -37,7 +36,7 @@ public class ThirdPersonCam : MonoBehaviourPun
             return; // Ignore les mouvements des autres joueurs
         }
         
-        Vector3 viewDir = new Vector3(player.position.x, 0, player.position.z) - new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 viewDir = player.position - new Vector3(VirtualCamera.transform.position.x, player.position.y, VirtualCamera.transform.position.z);
         orientation.forward = viewDir.normalized;
         
         // rotate player
@@ -48,7 +47,7 @@ public class ThirdPersonCam : MonoBehaviourPun
 
         if (inputDir != Vector3.zero)
         {
-            playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir, rotationSpeed * Time.deltaTime);
+            playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, rotationSpeed * Time.deltaTime);
         }
     }
 

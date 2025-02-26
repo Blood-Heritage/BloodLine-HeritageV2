@@ -43,7 +43,11 @@ public class MovementReborn : MonoBehaviourPun
     }
 
 
-    private void ChangeCameraPriority(int priority)
+    public void SetCameraObjectCustom(CinemachineFreeLook cameraObject)
+    {
+        vc = cameraObject;
+    }
+    public void ChangeCameraPriority(int priority)
     {
         vc.Priority = priority;
     }
@@ -56,7 +60,7 @@ public class MovementReborn : MonoBehaviourPun
             return; // Ignore les mouvements des autres joueurs
         }
         
-        if (Input.GetKeyDown(forRunning)) speed = runningSpeed;
+        if (Input.GetKey(forRunning)) speed = runningSpeed;
         else speed = moveSpeed;
         
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f);
@@ -92,6 +96,7 @@ public class MovementReborn : MonoBehaviourPun
 
         if (grounded)
         {
+            Debug.Log($"The current speed: {speed}");
             rb.AddForce(moveDirection.normalized * (speed * 10f), ForceMode.Force);
             animator.SetBool(isJumpingHash, false);
         }

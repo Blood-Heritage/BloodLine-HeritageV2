@@ -7,7 +7,6 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     public GameObject playerPrefab; // Prefab du personnage
     public Vector3 spawnPosition = new Vector3(80, 0, 56); // Position initiale du spawn
     public int vcPriority = 20;
-
     public GameObject CameraPrefab;
     
     void Start()
@@ -23,14 +22,22 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             }
 
             var cinemachinecamera = Instantiate(CameraPrefab, spawnPosition, Quaternion.identity);
-            CinemachineFreeLook vcam = cinemachinecamera.GetComponentInChildren<CinemachineFreeLook>();
+            CinemachineFreeLook freelookCam = cinemachinecamera.GetComponentInChildren<CinemachineFreeLook>();
+            CinemachineVirtualCamera vcam = cinemachinecamera.GetComponentInChildren<CinemachineVirtualCamera>();
+            
+            freelookCam.Follow = player.transform;
+            freelookCam.LookAt = player.transform;
+
+            ThirdPersonCam thirdPersonCam = player.GetComponent<ThirdPersonCam>();
+            thirdPersonCam.SetCameraObjectCustom(vcam);
+            
+            MovementReborn movementReborn = player.GetComponent<MovementReborn>();
+            movementReborn.SetCameraObjectCustom(freelookCam);
+            movementReborn.ChangeCameraPriority(vcPriority);
+            vcPriority--;
             
             // vcam.BroadcastMessage("ChangeCameraPriority", vcPriority);
-            // vcPriority--;
             
-            
-            vcam.Follow = player.transform;
-            vcam.LookAt = player.transform;
             
             // Transform _orientation, Transform _player, Transform _playerObj
             

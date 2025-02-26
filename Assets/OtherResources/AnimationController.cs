@@ -9,24 +9,27 @@ public class AnimationController : MonoBehaviourPun
     
     Animator animator;
     public KeyCode forRunning = KeyCode.LeftShift;
+    public KeyCode forShooting = KeyCode.Mouse0;
 
     int isWalkingHash;
     int isRunningHash;
+    int isShootingHash;
     private bool moving;
-    private Rigidbody rb;
+    // private Rigidbody rb;
     
     Vector3 previousPosition;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        // rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         
-        previousPosition = rb.position;
+        previousPosition = transform.position;
         
         // more performant
         isWalkingHash = Animator.StringToHash("isWalking");
         isRunningHash = Animator.StringToHash("isRunning");
+        isShootingHash = Animator.StringToHash("isShooting");
     }
 
     void Update()
@@ -50,6 +53,7 @@ public class AnimationController : MonoBehaviourPun
         bool isRunning = animator.GetBool(isRunningHash);
         
         bool runningKeyPressed = Input.GetKey(forRunning);
+        bool shootingKeyPressed = Input.GetKey(forShooting);
         
         // if it moves
         if (!isWalking && moving)
