@@ -97,6 +97,8 @@ public class MovementReborn : MonoBehaviourPun
         if (isRunningPressed) movement *= runningSpeed;
         else movement *= moveSpeed;
         
+        Debug.Log($"movement: {movement}");
+        
         cc.Move(movement * Time.deltaTime);
     }
 
