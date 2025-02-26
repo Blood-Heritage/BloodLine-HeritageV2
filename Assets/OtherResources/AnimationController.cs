@@ -9,7 +9,7 @@ public class AnimationController : MonoBehaviourPun
     
     Animator animator;
     public KeyCode forRunning = KeyCode.LeftShift;
-    public KeyCode forShooting = KeyCode.Mouse0;
+    // public KeyCode forShooting = KeyCode.Mouse0;
 
     int isWalkingHash;
     int isRunningHash;
@@ -53,7 +53,7 @@ public class AnimationController : MonoBehaviourPun
         bool isRunning = animator.GetBool(isRunningHash);
         
         bool runningKeyPressed = Input.GetKey(forRunning);
-        bool shootingKeyPressed = Input.GetKey(forShooting);
+        // bool shootingKeyPressed = Input.GetKey(forShooting);
         
         // if it moves
         if (!isWalking && moving)

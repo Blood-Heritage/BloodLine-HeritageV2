@@ -24,9 +24,11 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             var cinemachinecamera = Instantiate(CameraPrefab, spawnPosition, Quaternion.identity);
             CinemachineFreeLook freelookCam = cinemachinecamera.GetComponentInChildren<CinemachineFreeLook>();
             CinemachineVirtualCamera vcam = cinemachinecamera.GetComponentInChildren<CinemachineVirtualCamera>();
+            CameraHelper camHelp = player.GetComponent<CameraHelper>();
+            var helpers = camHelp.GetHelpers();
             
-            freelookCam.Follow = player.transform;
-            freelookCam.LookAt = player.transform;
+            freelookCam.Follow = helpers.follow.transform;
+            freelookCam.LookAt = helpers.follow.transform;
 
             ThirdPersonCam thirdPersonCam = player.GetComponent<ThirdPersonCam>();
             thirdPersonCam.SetCameraObjectCustom(vcam);

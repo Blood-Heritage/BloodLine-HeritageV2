@@ -1,48 +1,45 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.InputSystem;
 
 public class MovementReborn : MonoBehaviourPun
 {
     private float speed;
-    public float moveSpeed;
-    public float runningSpeed;
+    public float moveSpeed = 5;
+    public float runningSpeed = 8;
     
-    [Header("Keybinds")]
-    public KeyCode forRunning = KeyCode.LeftShift;
-    public KeyCode forJumping = KeyCode.Space;
+    // [Header("Keybinds")]
+    // public KeyCode forRunning = KeyCode.LeftShift;
+    // public KeyCode forJumping = KeyCode.Space;
+    //
+    // public Transform orientation;
+    //
+    // [Header("Jumping")]
+    // public float jumpForce;
+    // public float jumpCoolDown;
+    // public float airMultiplier;
+    // public bool readyToJump = true;
+    //
+    // [Header("Ground Check")] 
+    // public float groundDrag = 0.2f;
+    //
+    // public bool grounded
+    // {
+    //     get
+    //     {
+    //         return cc.isGrounded;
+    //     }
+    // }
     
-    public Transform orientation;
+    // private float horizontalInput;
+    // private float verticalInput;
+    // private int isJumpingHash = Animator.StringToHash("isJumping");
     
-    [Header("Jumping")]
-    public float jumpForce;
-    public float jumpCoolDown;
-    public float airMultiplier;
-    public bool readyToJump = true;
-
-    [Header("Ground Check")] 
-    public float playerHeight;
-    public float groundDrag;
-    public bool grounded;
     
-    private float horizontalInput;
-    private float verticalInput;
-    private int isJumpingHash = Animator.StringToHash("isJumping");
-    
-    Vector3 moveDirection;
-    Rigidbody rb;
-    Animator animator;
     public CinemachineFreeLook vc;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-    }
-
-
     public void SetCameraObjectCustom(CinemachineFreeLook cameraObject)
     {
         vc = cameraObject;
@@ -51,72 +48,67 @@ public class MovementReborn : MonoBehaviourPun
     {
         vc.Priority = priority;
     }
+    
+    Vector2 currentMovementInput;
+    Vector3 currentMovement;
+    
+    private bool isMovementPressed;
+    private bool isRunningPressed;
+    
+    private PlayerInput playerInput;
+    
+    Vector3 moveDirection;
+    CharacterController cc;
+    Animator animator;
+    
+    private void Awake()
+    { 
+        playerInput = new PlayerInput();
+        animator = GetComponent<Animator>();
+        cc = GetComponent<CharacterController>();
+
+        playerInput.CharacterControls.Move.started += OnMovementInput;
+        playerInput.CharacterControls.Move.performed += OnMovementInput;
+        playerInput.CharacterControls.Move.canceled += OnMovementInput;
+
+        playerInput.CharacterControls.Run.started += OnRunInput;
+        playerInput.CharacterControls.Run.canceled += OnRunInput;
+    }
+
+    void OnRunInput(InputAction.CallbackContext context)
+    {
+        isRunningPressed = context.ReadValueAsButton();
+    }
+
+    void OnMovementInput (InputAction.CallbackContext context)
+    {
+        currentMovementInput = context.ReadValue<Vector2>();
+        currentMovement.x = currentMovementInput.x;
+        currentMovement.z = currentMovementInput.y;
+        isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
+        Debug.Log(currentMovementInput);
+    }
 
     private void Update()
     {
-        // Verifie si le joueur controle ce personnage
-        if (!photonView.IsMine)
-        {
-            return; // Ignore les mouvements des autres joueurs
-        }
-        
-        if (Input.GetKey(forRunning)) speed = runningSpeed;
-        else speed = moveSpeed;
-        
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f);
-        MyInput();
+        if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
 
-        if (grounded) rb.drag = groundDrag;
-        else rb.drag = 0;
+        Vector3 movement = (transform.forward * currentMovement.z) + (currentMovement.x * transform.right);
+        if (isRunningPressed) movement *= runningSpeed;
+        else movement *= moveSpeed;
         
-        if (rb.velocity.y == 0) animator.SetBool(isJumpingHash, false);
-    }
-    private void FixedUpdate()
-    {
-        MovePlayer();
+        cc.Move(movement * Time.deltaTime);
     }
 
-    private void MyInput()
+    private void OnEnable()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        
-        // for jumping
-        if (Input.GetKey(forJumping) && readyToJump && grounded)
-        {
-            readyToJump = false;
-            Jump();
-            Invoke(nameof(ResetJump), jumpCoolDown);
-        }
+        playerInput.CharacterControls.Enable();
     }
-
-    private void MovePlayer()
+    
+    
+    private void OnDisable()
     {
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-        if (grounded)
-        {
-            Debug.Log($"The current speed: {speed}");
-            rb.AddForce(moveDirection.normalized * (speed * 10f), ForceMode.Force);
-            animator.SetBool(isJumpingHash, false);
-        }
-        
-        // in air 
-        else if (!grounded) 
-            rb.AddForce(moveDirection.normalized * (speed * 10f * airMultiplier), ForceMode.Force);
-    }
-
-
-    private void Jump()
-    {
-        animator.SetBool(isJumpingHash, true);
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-    }
-
-    private void ResetJump()
-    {
-        readyToJump = true;
+        playerInput.CharacterControls.Disable();
     }
 
 }
