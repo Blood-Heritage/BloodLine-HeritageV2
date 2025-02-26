@@ -7,7 +7,8 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     public GameObject playerPrefab; // Prefab du personnage
     public Vector3 spawnPosition = new Vector3(80, 0, 56); // Position initiale du spawn
     public int vcPriority = 20;
-    
+
+    public GameObject CameraPrefab;
     
     void Start()
     {
@@ -20,11 +21,31 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             {
                 Debug.LogError("Player prefab is not assigned in the inspector!");
             }
-            
-            player.BroadcastMessage("ChangeCameraPriority", vcPriority);
-            vcPriority--;
 
-            // player.GetComponent<CinemachineVirtualCamera>().Priority;
+            var cinemachinecamera = Instantiate(CameraPrefab);
+            
+            cinemachinecamera.BroadcastMessage("ChangeCameraPriority", vcPriority);
+            vcPriority--;
+            
+            // Transform _orientation, Transform _player, Transform _playerObj
+            
+            // get Helper
+            CameraHelper cameraHelper = player.GetComponentInChildren<CameraHelper>();
+            var helpers = cameraHelper.GetHelpers();
+            
+            Debug.Log($"orientation: {helpers.orientation}, follow: {helpers.follow}");
+            
+            
+            // get ThirPerson script to set the variables
+            ThirdPersonCam thirdPersonCamScript = cinemachinecamera.GetComponent<ThirdPersonCam>();
+            if (thirdPersonCamScript == null)
+            {
+                Debug.LogError("Third Person Camera Script Is NULL");
+            }
+            
+            
+            thirdPersonCamScript.SetVariablesCustom(helpers.orientation, helpers.follow, player.transform);
+            
 
             if (Camera.main == null)
             {
@@ -36,8 +57,10 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
             {
                 Camera.main.GetComponent<CameraController>().target = player.transform;
             }
-
-
+            else
+            {
+                Debug.LogError("No deberia llegar a aca!!!");
+            }
         }
     }
 }

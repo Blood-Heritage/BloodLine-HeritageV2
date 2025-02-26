@@ -16,8 +16,21 @@ public class ThirdPersonCam : MonoBehaviourPun
         Cursor.visible = false;
     }
 
+    public void SetVariablesCustom(Transform _orientation, Transform _player, Transform _playerObj)
+    {
+        orientation = _orientation;
+        player = _player;
+        playerObj = _playerObj;
+    }
+
     private void Update()
     {
+        if (orientation == null || player == null || playerObj == null)
+        {
+            Debug.Log("orientation | player | playerObj in thirdPerson camera null");
+            return;
+        }    
+        
         // Verifie si le joueur controle ce personnage
         if (!photonView.IsMine)
         {

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target; // Le personnage à suivre
-    public Vector3 offset;   // Décalage de la caméra par rapport au personnage
+    public Transform target; // Le personnage ï¿½ suivre
+    public Vector3 offset;   // Decalage de la camï¿½ra par rapport au personnage
 
     void LateUpdate()
     {
