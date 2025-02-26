@@ -1100,7 +1100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forRunning: 304
-  forShooting: 323
 --- !u!114 &-7349470399614710659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,6 +1126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147cf85017682e306b3dc347117a1232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
+  runningSpeed: 5
   vc: {fileID: 0}
 --- !u!114 &768092432860539697
 MonoBehaviour:
