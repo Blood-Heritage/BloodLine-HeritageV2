@@ -11,10 +11,13 @@ public class ThirdPersonCam : MonoBehaviourPun
     public CinemachineVirtualCamera VirtualCamera;
     public float rotationSpeed;
 
-    private void Start()
+    private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        // tmp for testing movement
+        VirtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
     }
 
     public void SetCameraObjectCustom(CinemachineVirtualCamera cameraObject)
@@ -24,9 +27,11 @@ public class ThirdPersonCam : MonoBehaviourPun
 
     private void Update()
     {
+        // tmp
         if (orientation == null || player == null || playerObj == null ||  VirtualCamera == null)
         {
-            Debug.Log("orientation | player | playerObj | VirtualCamera in thirdPersonCam null");
+            Debug.Log($"orientation: {orientation}, player: {player}, playerObj: {playerObj}, VirtualCamera: {VirtualCamera}");
+            // Debug.Log("orientation | player | playerObj | VirtualCamera in thirdPersonCam null");
             return;
         }    
         
