@@ -17,7 +17,6 @@ void Start()
     
     if (agent == null)
     {
-        Debug.LogError("NavMeshAgent non trouvé sur " + gameObject.name + ". Assurez-vous que le composant est bien ajouté !");
         return;
     }
 
@@ -32,7 +31,7 @@ void Start()
     }
     else
     {
-        Debug.LogWarning("Aucune destination trouvée !");
+        Debug.LogWarning("çamarchepas");
     }
 }
 
