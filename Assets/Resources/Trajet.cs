@@ -1,26 +1,60 @@
 using UnityEngine;
-using Photon.Pun;
 using UnityEngine.AI;
+using System.Linq; // Pour simplifier la récupération des objets
 
-public class MoveDestination : MonoBehaviourPun {
-    
+public class AIMoveBetweenPoints : MonoBehaviour
+{
     public NavMeshAgent agent;
-    public Transform goal;
+    private Transform[] destinationPoints;
+    private int currentDestinationIndex = 0;
+    public float arrivalThreshold = 0.1f; 
 
-    void Start() {
-        if (agent == null)
-            agent = GetComponent<NavMeshAgent>();
+void Start()
+{
+    
+    agent = GetComponent<NavMeshAgent>();
 
-        if (goal != null) {
-            agent.SetDestination(goal.position);
-        } else {
-            Debug.LogError("Aucun goal assigné au NPC !");
+    
+    if (agent == null)
+    {
+        Debug.LogError("NavMeshAgent non trouvé sur " + gameObject.name + ". Assurez-vous que le composant est bien ajouté !");
+        return;
+    }
+
+    
+    destinationPoints = GameObject.FindObjectsOfType<Transform>()
+        .Where(t => t.name.StartsWith("DestinationPoint_"))
+        .ToArray();
+
+    if (destinationPoints.Length > 0)
+    {
+        MoveToNextDestination();
+    }
+    else
+    {
+        Debug.LogWarning("Aucune destination trouvée !");
+    }
+}
+
+
+    void Update()
+    {
+        if (agent.pathPending) return;
+
+    
+        if (!agent.hasPath || agent.remainingDistance <= agent.stoppingDistance + arrivalThreshold)
+        {
+            MoveToNextDestination();
         }
     }
 
-    void Update() {
-        if (goal != null) {
-            agent.SetDestination(goal.position);
-        }
+    void MoveToNextDestination()
+    {
+        if (destinationPoints.Length == 0) return;
+        int new_value = Random.Range(0,destinationPoints.Length);
+        currentDestinationIndex = destinationPoints.Length;
+        
+        agent.SetDestination(destinationPoints[new_value].position);
+        Debug.Log("Nouvelle destination : " + destinationPoints[new_value].name);
     }
 }
