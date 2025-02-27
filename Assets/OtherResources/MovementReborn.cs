@@ -82,10 +82,10 @@ public class MovementReborn : MonoBehaviourPun
 
         TorsoLayer = animator.GetLayerIndex("Torso");
         ShootingLayer = animator.GetLayerIndex("Aim");
-        // animator.SetLayerWeight();
-        // animator.GetLayerName(animator.GetLayerIndex("Torso"));
         
-
+        // para empezar
+        animator.SetLayerWeight(TorsoLayer, 0.0f);
+        
         playerInput.CharacterControls.Move.started += OnMovementInput;
         playerInput.CharacterControls.Move.performed += OnMovementInput;
         playerInput.CharacterControls.Move.canceled += OnMovementInput;
@@ -108,6 +108,9 @@ public class MovementReborn : MonoBehaviourPun
     void OnFireInput(InputAction.CallbackContext context)
     {
         isShootingPressed = context.ReadValueAsButton();
+        
+        if (isShootingPressed) animator.SetLayerWeight(TorsoLayer, 0.5f);
+        else animator.SetLayerWeight(TorsoLayer, 0.0f);
     }
 
     void OnMovementInput (InputAction.CallbackContext context)
@@ -163,14 +166,12 @@ public class MovementReborn : MonoBehaviourPun
         if (isShootingPressed && !isShooting)
         {
             animator.SetLayerWeight(ShootingLayer, 1.0f);
-            animator.SetLayerWeight(TorsoLayer, 0.5f);
             animator.SetBool(isShootingHash, true);
         }
 
         if (!isShootingPressed && isShooting)
         {
             animator.SetLayerWeight(ShootingLayer, 0.0f);
-            animator.SetLayerWeight(TorsoLayer, 0.0f);
             animator.SetBool(isShootingHash, false);
         }
         
