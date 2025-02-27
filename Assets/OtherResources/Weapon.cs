@@ -11,15 +11,15 @@ public class weapon : MonoBehaviour
     public int damage;
     public float fireRate;
     private float nextFire;
-    public Animator animator;
-    private int isShootingHash;
+    // public Animator animator;
+    // private int isShootingHash;
     
     public InputActionReference shoot;
     private float _shoot;
 
     private void Start()
     {
-        isShootingHash = Animator.StringToHash("isShooting");
+        // isShootingHash = Animator.StringToHash("isShooting");
     }
 
 
@@ -34,13 +34,13 @@ public class weapon : MonoBehaviour
         
         if (_shoot > 0.1f && nextFire <= 0)
         {
-            animator.SetBool(isShootingHash, true);
+            // animator.SetBool(isShootingHash, true);
             Debug.Log("Fire");
             nextFire = 1 / fireRate;
             Fire();
         }
         
-        if (_shoot < 0.1f) animator.SetBool(isShootingHash, false);
+        // if (_shoot < 0.1f) animator.SetBool(isShootingHash, false);
     }
 
     void Fire()

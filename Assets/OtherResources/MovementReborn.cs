@@ -66,8 +66,11 @@ public class MovementReborn : MonoBehaviourPun
     int isWalkingHash; 
     int isRunningHash;
     int isShootingHash;
+
+    int TorsoLayer;
+    int ShootingLayer;
     
-    private void Awake()
+        private void Awake()
     { 
         playerInput = new PlayerInput();
         animator = GetComponent<Animator>();
@@ -76,6 +79,12 @@ public class MovementReborn : MonoBehaviourPun
         isWalkingHash = Animator.StringToHash("isWalking");
         isRunningHash = Animator.StringToHash("isRunning");
         isShootingHash = Animator.StringToHash("isShooting");
+
+        TorsoLayer = animator.GetLayerIndex("Torso");
+        ShootingLayer = animator.GetLayerIndex("Aim");
+        // animator.SetLayerWeight();
+        // animator.GetLayerName(animator.GetLayerIndex("Torso"));
+        
 
         playerInput.CharacterControls.Move.started += OnMovementInput;
         playerInput.CharacterControls.Move.performed += OnMovementInput;
@@ -87,6 +96,8 @@ public class MovementReborn : MonoBehaviourPun
         
         playerInput.CharacterControls.Fire.started += OnFireInput;
         playerInput.CharacterControls.Fire.canceled += OnFireInput;
+        
+        
     }
 
     void OnRunInput(InputAction.CallbackContext context)
@@ -147,6 +158,21 @@ public class MovementReborn : MonoBehaviourPun
     {
         bool isWalking = animator.GetBool(isWalkingHash);
         bool isRunning = animator.GetBool(isRunningHash);
+        bool isShooting = animator.GetBool(isShootingHash);
+
+        if (isShootingPressed && !isShooting)
+        {
+            animator.SetLayerWeight(ShootingLayer, 1.0f);
+            animator.SetLayerWeight(TorsoLayer, 0.5f);
+            animator.SetBool(isShootingHash, true);
+        }
+
+        if (!isShootingPressed && isShooting)
+        {
+            animator.SetLayerWeight(ShootingLayer, 0.0f);
+            animator.SetLayerWeight(TorsoLayer, 0.0f);
+            animator.SetBool(isShootingHash, false);
+        }
         
         // bool runningKeyPressed = Input.GetKey();
         // bool shootingKeyPressed = Input.GetKey(forShooting);

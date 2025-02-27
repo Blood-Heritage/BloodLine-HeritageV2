@@ -740,22 +740,22 @@ PrefabInstance:
     - target: {fileID: 1670917227964813777, guid: 94b111b0d1abe6b61807f4d8e17d8633,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.3354155
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1670917227964813777, guid: 94b111b0d1abe6b61807f4d8e17d8633,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.8178121
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1670917227964813777, guid: 94b111b0d1abe6b61807f4d8e17d8633,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.45431307
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1670917227964813777, guid: 94b111b0d1abe6b61807f4d8e17d8633,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.1108128
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2808019281706350894, guid: 94b111b0d1abe6b61807f4d8e17d8633,
         type: 3}
@@ -1210,6 +1210,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9581884, guid: ec2a3261a295a2883908f5dddca42a92, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8fad730de64392f4d8fac4e100609316, type: 2}
     - target: {fileID: 1048814028805967860, guid: ec2a3261a295a2883908f5dddca42a92,
         type: 3}
       propertyPath: m_BackGroundColor.a
@@ -1526,7 +1530,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -2.8283157
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7836109997284989233, guid: ec2a3261a295a2883908f5dddca42a92, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 472912, guid: ec2a3261a295a2883908f5dddca42a92,
