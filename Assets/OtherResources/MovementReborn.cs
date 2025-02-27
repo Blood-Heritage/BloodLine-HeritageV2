@@ -54,6 +54,7 @@ public class MovementReborn : MonoBehaviourPun
     
     private bool isMovementPressed;
     private bool isRunningPressed;
+    private bool isShootingPressed;
     
     private PlayerInput playerInput;
     
@@ -61,11 +62,20 @@ public class MovementReborn : MonoBehaviourPun
     CharacterController cc;
     Animator animator;
     
+    
+    int isWalkingHash; 
+    int isRunningHash;
+    int isShootingHash;
+    
     private void Awake()
     { 
         playerInput = new PlayerInput();
         animator = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
+        
+        isWalkingHash = Animator.StringToHash("isWalking");
+        isRunningHash = Animator.StringToHash("isRunning");
+        isShootingHash = Animator.StringToHash("isShooting");
 
         playerInput.CharacterControls.Move.started += OnMovementInput;
         playerInput.CharacterControls.Move.performed += OnMovementInput;
@@ -73,11 +83,20 @@ public class MovementReborn : MonoBehaviourPun
 
         playerInput.CharacterControls.Run.started += OnRunInput;
         playerInput.CharacterControls.Run.canceled += OnRunInput;
+        
+        
+        playerInput.CharacterControls.Fire.started += OnFireInput;
+        playerInput.CharacterControls.Fire.canceled += OnFireInput;
     }
 
     void OnRunInput(InputAction.CallbackContext context)
     {
         isRunningPressed = context.ReadValueAsButton();
+    }
+
+    void OnFireInput(InputAction.CallbackContext context)
+    {
+        isShootingPressed = context.ReadValueAsButton();
     }
 
     void OnMovementInput (InputAction.CallbackContext context)
@@ -96,11 +115,20 @@ public class MovementReborn : MonoBehaviourPun
 
         if (isMovementPressed)
         {
-            if (isRunningPressed) movement *= runningSpeed;
-            else movement *= moveSpeed;
-        
+            // speed = runningSpeed
+            if (isRunningPressed)
+            {
+                if (isShootingPressed) speed = moveSpeed / 2;
+                else speed = runningSpeed;
+            }
+            else speed = moveSpeed;
+
+            movement *= speed;
+            
             cc.Move(movement * Time.deltaTime);
         }
+        
+        Animation();
     }
 
     private void OnEnable()
@@ -112,6 +140,40 @@ public class MovementReborn : MonoBehaviourPun
     private void OnDisable()
     {
         playerInput.CharacterControls.Disable();
+    }
+    
+    
+    void Animation()
+    {
+        bool isWalking = animator.GetBool(isWalkingHash);
+        bool isRunning = animator.GetBool(isRunningHash);
+        
+        // bool runningKeyPressed = Input.GetKey();
+        // bool shootingKeyPressed = Input.GetKey(forShooting);
+        
+        // if it moves
+        if (!isWalking && isMovementPressed)
+        {
+            animator.SetBool(isWalkingHash, true);
+        }
+
+        // if is not moving
+        if (isWalking && !isMovementPressed)
+        {
+            animator.SetBool(isWalkingHash, false);
+        }
+
+        // if player is walking and presses Shift Left
+        if (!isRunning && (isMovementPressed && isRunningPressed))
+        {
+            animator.SetBool(isRunningHash, true);
+        }
+        
+        // if player stops walking or running
+        if (isRunning &&  (!isMovementPressed || !isRunningPressed))
+        {
+            animator.SetBool(isRunningHash, false);
+        }
     }
 
 }
