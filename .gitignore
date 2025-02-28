@@ -26,6 +26,10 @@
 # Visual Studio cache directory
 .vs/
 
+# these are destroying my rebases
+.vscode/
+.idea/
+
 # Gradle cache directory
 .gradle/
 
