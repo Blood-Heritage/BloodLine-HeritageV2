@@ -56,16 +56,32 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach (RoomInfo roomInfo in roomList)
         {
             if (roomInfo.RemovedFromList) continue;
-
-            GameObject roomItem = Instantiate(roomListItemPrefab, roomListContainer.transform);
+            if(is_not_private(roomInfo.Name)){
+                GameObject roomItem = Instantiate(roomListItemPrefab, roomListContainer.transform);
             Text roomNameText = roomItem.GetComponentInChildren<Text>();
             roomNameText.text = roomInfo.Name;
 
             Button joinButton = roomItem.GetComponent<Button>();
             joinButton.onClick.AddListener(() => JoinRoom(roomInfo.Name));
+            }
+            
         }
     }
 
+    private bool is_not_private(string roomname){
+        if(roomname.Length>=11){
+            if(roomname.Substring(0,11)=="private_bh_"){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        else{
+            return true;
+        }
+
+    }
     public void JoinRoom(string roomName)
     {
         PhotonNetwork.JoinRoom(roomName);
