@@ -6,38 +6,31 @@ using System.Collections.Generic;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    public InputField roomNameInputField;  // Le champ pour entrer le nom de la salle
-    public GameObject roomListContainer;   // Le container dans lequel les items de la liste vont être ajoutés
-
-    private GameObject roomListItemPrefab; // Le prefab du bouton d'une salle
+    [Header("UI Elements")]
+    public InputField roomNameInputField;  // Champ pour entrer le nom de la salle
+    public GameObject roomListContainer;   // Conteneur des salons dans le ScrollView
+    public Button soloButton, createButton; // Boutons pour crÃ©er des salons
+    public GameObject roomListItemPrefab; // Prefab pour chaque salon
 
     void Start()
     {
-        // Charger le prefab depuis le dossier Resources
-        roomListItemPrefab = Resources.Load<GameObject>("Prefabs/RoomListItem"); // Assurez-vous que le chemin est correct
-
-        if (roomListItemPrefab == null)
-        {
-            Debug.LogError("Le prefab de l'item de la liste n'a pas été trouvé dans Resources !");
-        }
-
-        // Se connecter au serveur Photon
         PhotonNetwork.ConnectUsingSettings();
+
+        soloButton.onClick.AddListener(CreateSoloRoom);
+        createButton.onClick.AddListener(CreateRoom);
     }
 
-    // Cette méthode est appelée lorsque nous avons réussi à nous connecter au serveur Photon
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinLobby(); // Rejoindre le lobby
+        PhotonNetwork.JoinLobby();
     }
 
-    // Cette méthode est appelée pour créer une salle
     public void CreateRoom()
     {
-        string roomName = roomNameInputField.text;
+        string roomName = roomNameInputField.text.Trim();
         if (!string.IsNullOrEmpty(roomName))
         {
-            PhotonNetwork.CreateRoom(roomName); // Crée une salle avec ce nom
+            PhotonNetwork.CreateRoom(roomName);
         }
         else
         {
@@ -45,37 +38,58 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // Callback de Photon pour récupérer la liste des salles
+    public void CreateSoloRoom()
+    {
+        string randomRoomName = "private_bh_" + Random.Range(1000, 9999);
+        PhotonNetwork.CreateRoom(randomRoomName);
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        // Vider le container de salles avant de l'actualiser
+        // Supprimer les anciens items avant d'ajouter les nouveaux
         foreach (Transform child in roomListContainer.transform)
         {
-            Destroy(child.gameObject); // Supprimer les anciens items
+            Destroy(child.gameObject);
         }
 
-        // Afficher les nouvelles salles disponibles
+        // Ajouter chaque salle en tant que bouton
         foreach (RoomInfo roomInfo in roomList)
         {
-            GameObject roomItem = Instantiate(roomListItemPrefab, roomListContainer.transform); // Crée un item de la liste
-            Text roomNameText = roomItem.GetComponentInChildren<Text>(); // Récupère le composant Text de l'item
-            roomNameText.text = roomInfo.Name; // Définit le nom de la salle
+            if (roomInfo.RemovedFromList) continue;
+            if(is_not_private(roomInfo.Name)){
+                GameObject roomItem = Instantiate(roomListItemPrefab, roomListContainer.transform);
+            Text roomNameText = roomItem.GetComponentInChildren<Text>();
+            roomNameText.text = roomInfo.Name;
 
-            // Ajouter un bouton pour rejoindre la salle
-            Button joinButton = roomItem.GetComponentInChildren<Button>(); // Récupère le bouton
-            joinButton.onClick.AddListener(() => JoinRoom(roomInfo.Name)); // Rejoindre la salle quand on clique dessus
+            Button joinButton = roomItem.GetComponent<Button>();
+            joinButton.onClick.AddListener(() => JoinRoom(roomInfo.Name));
+            }
+            
         }
     }
 
-    // Méthode pour rejoindre une salle spécifique
+    private bool is_not_private(string roomname){
+        if(roomname.Length>=11){
+            if(roomname.Substring(0,11)=="private_bh_"){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        else{
+            return true;
+        }
+
+    }
     public void JoinRoom(string roomName)
     {
-        PhotonNetwork.JoinRoom(roomName); // Rejoint la salle
+        PhotonNetwork.JoinRoom(roomName);
     }
 
-    // Callback appelé lorsque le joueur rejoint une salle
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("GameScene"); // Charge la scène de jeu
+        Debug.Log($"Rejoint la salle : {PhotonNetwork.CurrentRoom.Name}");
+        PhotonNetwork.LoadLevel("GameScene");
     }
 }
