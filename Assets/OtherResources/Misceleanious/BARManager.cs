@@ -18,7 +18,7 @@ public class BARManager : MonoBehaviourPun
     [Header("UI")]
     public Image healthBar; // Assign in Inspector
     public GameObject deathUI; // Assign in Inspector
-    
+
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
     
@@ -36,7 +36,6 @@ public class BARManager : MonoBehaviourPun
     public void AssignPlayer(PhotonView playerView)
     {
         photonView = playerView;
-       
     }
 
     private void Update()
@@ -50,7 +49,7 @@ public class BARManager : MonoBehaviourPun
         {
             Heal(10);
         }
-        
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             statePause = !statePause;
