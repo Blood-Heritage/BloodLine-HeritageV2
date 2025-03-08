@@ -3,40 +3,12 @@ using Cinemachine;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
-
+using System.Collections;
 public class MovementReborn : MonoBehaviourPun
 {
     private float speed;
     public float moveSpeed = 5;
     public float runningSpeed = 8;
-    
-    // [Header("Keybinds")]
-    // public KeyCode forRunning = KeyCode.LeftShift;
-    // public KeyCode forJumping = KeyCode.Space;
-    //
-    // public Transform orientation;
-    //
-    // [Header("Jumping")]
-    // public float jumpForce;
-    // public float jumpCoolDown;
-    // public float airMultiplier;
-    // public bool readyToJump = true;
-    //
-    // [Header("Ground Check")] 
-    // public float groundDrag = 0.2f;
-    //
-    // public bool grounded
-    // {
-    //     get
-    //     {
-    //         return cc.isGrounded;
-    //     }
-    // }
-    
-    // private float horizontalInput;
-    // private float verticalInput;
-    // private int isJumpingHash = Animator.StringToHash("isJumping");
-    
     
     public CinemachineFreeLook vc;
     
@@ -52,15 +24,15 @@ public class MovementReborn : MonoBehaviourPun
     Vector2 currentMovementInput;
     Vector3 currentMovement;
     
+    public bool isRunningPressed;
     private bool isMovementPressed;
-    private bool isRunningPressed;
     private bool isShootingPressed;
     
     private PlayerInput playerInput;
     
     Vector3 moveDirection;
     CharacterController cc;
-    Animator animator;
+    public Animator animator;
     
     
     int isWalkingHash; 
@@ -70,7 +42,7 @@ public class MovementReborn : MonoBehaviourPun
     int TorsoLayer;
     int ShootingLayer;
     
-        private void Awake()
+    private void Awake()
     { 
         playerInput = new PlayerInput();
         animator = GetComponent<Animator>();
@@ -96,8 +68,6 @@ public class MovementReborn : MonoBehaviourPun
         
         playerInput.CharacterControls.Fire.started += OnFireInput;
         playerInput.CharacterControls.Fire.canceled += OnFireInput;
-        
-        
     }
 
     void OnRunInput(InputAction.CallbackContext context)
@@ -136,11 +106,15 @@ public class MovementReborn : MonoBehaviourPun
                 else speed = runningSpeed;
             }
             else speed = moveSpeed;
+            
 
             movement *= speed;
             
             cc.Move(movement * Time.deltaTime);
         }
+        
+        // if (isShootingPressed && !isShootingPressed) DrainStamina();
+        // else RegenerateStamina();
         
         Animation();
     }

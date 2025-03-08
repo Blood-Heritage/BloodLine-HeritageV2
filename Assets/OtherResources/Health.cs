@@ -1,22 +1,22 @@
 using UnityEngine;
 using Photon.Pun;
-using TMPro;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviourPun
 {
-    [Header("UI")]
-    public int health;
-    public TextMeshProUGUI healthText;
+    private void Start()
+    {
+        if (photonView.IsMine && BARManager.Instance != null)
+        {
+            BARManager.Instance.AssignPlayer(photonView);
+        }
+    }
 
     [PunRPC]
-    public void TakeDamage(int _damage)
+    public void TakeDamage(float damage)
     {
-        health -= _damage;
-        healthText.text = health.ToString();
-        
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
+        if (!photonView.IsMine) return;
+
+        if (BARManager.Instance != null)
+            BARManager.Instance.TakeDamage(damage);
     }
 }

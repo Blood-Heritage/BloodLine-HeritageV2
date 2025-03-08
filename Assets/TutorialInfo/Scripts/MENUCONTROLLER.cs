@@ -20,11 +20,6 @@ public class MENUCONTROLLER : MonoBehaviour
         manager = GameManager.instance;
     }
 
-    public void OpenPanel()
-    {
-
-    }
-
     public void ChangeScene(string _scenename)
     {
         manager.ChangeScene(_scenename);

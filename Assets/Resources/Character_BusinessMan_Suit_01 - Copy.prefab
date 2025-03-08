@@ -960,6 +960,7 @@ GameObject:
   - component: {fileID: -8103786273381869268}
   - component: {fileID: -3864016641322122961}
   - component: {fileID: 1302223699412738269}
+  - component: {fileID: -4078430610723207532}
   m_Layer: 0
   m_Name: Character_BusinessMan_Suit_01 - Copy
   m_TagString: Untagged
@@ -1080,8 +1081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32fc25142bc881a8c9edeab94e06352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  healthText: {fileID: 0}
 --- !u!114 &1156768632394632570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1097,6 +1096,8 @@ MonoBehaviour:
   moveSpeed: 3
   runningSpeed: 5
   vc: {fileID: 0}
+  isRunningPressed: 0
+  animator: {fileID: 0}
 --- !u!114 &768092432860539697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,6 +1171,24 @@ CharacterController:
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-4078430610723207532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0318436d42ad0a4dbd11477a852b8b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 100
+  currentStamina: 0
+  staminaDrainRate: 15
+  staminaRegenRate: 10
+  isExhausted: 0
+  staminaCooldown: 5
 --- !u!1 &131922
 GameObject:
   m_ObjectHideFlags: 0
