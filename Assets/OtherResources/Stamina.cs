@@ -15,10 +15,12 @@ public class Stamina : MonoBehaviourPun
     private MovementReborn movement;
     private bool isRunning;
     private int isRunningHash;
+    private int isShootingHash;
 
     private void Start()
     {
         isRunningHash = Animator.StringToHash("isRunning");
+        isShootingHash = Animator.StringToHash("isShooting");
         currentStamina = maxStamina;
         movement = GetComponent<MovementReborn>();
     }
@@ -28,7 +30,7 @@ public class Stamina : MonoBehaviourPun
         if (!photonView.IsMine) return;
         
 
-        if (movement.animator.GetBool(isRunningHash)) // && currentStamina > staminaThreshold)
+        if (movement.animator.GetBool(isRunningHash) && !movement.animator.GetBool(isShootingHash)) // && currentStamina > staminaThreshold)
         {
             DrainStamina();
         }
