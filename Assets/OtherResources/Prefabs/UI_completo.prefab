@@ -2462,6 +2462,7 @@ MonoBehaviour:
   maxHealth: 100
   healthBar: {fileID: 7864453684059131655}
   deathUI: {fileID: 6080926492998035574}
+  pausePanel: {fileID: 4266642525523595090}
   staminaBar: {fileID: 6283085706616336968}
 --- !u!1 &8320047118802410685
 GameObject:
