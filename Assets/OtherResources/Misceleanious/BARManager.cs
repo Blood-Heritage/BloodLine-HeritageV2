@@ -28,7 +28,7 @@ public class BARManager : MonoBehaviourPun
 
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
-
+    
     private bool isDead = false;
     private PhotonView photonView;
 
@@ -51,10 +51,23 @@ public class BARManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             {
+
                 statePause = !statePause;
                 pausePanel.SetActive(statePause);
+                movementComponent.canMoveCamera = !movementComponent.canMoveCamera;
+            }
+
+            if (statePause)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
             }
 
             UpdateBars();
@@ -64,10 +77,7 @@ public class BARManager : MonoBehaviourPun
             else
                 cursorCrosshair.SetActive(false);
         }
-    }
-    
-    
-    
+    }    
 
     private void UpdateBars()
     {
@@ -118,6 +128,5 @@ public class BARManager : MonoBehaviourPun
         PhotonNetwork.LoadLevel("MenuStart"); // Sync scene transition
     }
     */
-
 
 }

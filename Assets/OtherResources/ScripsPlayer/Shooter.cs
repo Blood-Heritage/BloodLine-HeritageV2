@@ -32,8 +32,9 @@ public class Shooter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (movementReborn.photonView.IsMine)
+        if (movementReborn.photonView.IsMine )
         {
+
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
             Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
             if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
@@ -45,7 +46,7 @@ public class Shooter : MonoBehaviour
             if (nextFire > 0)
                 nextFire -= Time.deltaTime;
 
-            if (movementReborn.isShootingPressed && nextFire <= 0)
+            if (movementReborn.isShootingPressed && nextFire <= 0 && movementReborn.canMoveCamera)
             {
                 Fire();
             }
