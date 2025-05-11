@@ -32,31 +32,23 @@ public class Shooter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (movementReborn.isAimingPressed || movementReborn.isShootingPressed)
+        if (movementReborn.photonView.IsMine)
         {
-            movementReborn.aimCam.VirtualCameraGameObject.gameObject.SetActive(true);
-        }
-        else
-        {
-            movementReborn.aimCam.VirtualCameraGameObject.gameObject.SetActive(false);
-        }
-        
-        
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask)) {
-            // debugTransform.position = raycastHit.point;
-            mouseWorldPosition.position = raycastHit.point;
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
+            {
+                // debugTransform.position = raycastHit.point;
+                mouseWorldPosition.position = raycastHit.point;
+            }
             
-        }
+            if (nextFire > 0)
+                nextFire -= Time.deltaTime;
 
-        
-        if (nextFire > 0)
-            nextFire -= Time.deltaTime;
-
-        if (movementReborn.isShootingPressed && nextFire <= 0)
-        {
-            Fire();
+            if (movementReborn.isShootingPressed && nextFire <= 0)
+            {
+                Fire();
+            }
         }
     }
 
@@ -67,7 +59,7 @@ public class Shooter : MonoBehaviour
         if (online)
         {
             // PhotonNetwork.Instantiate(pfBulletProjectile);
-            PhotonNetwork.Instantiate("BulletPrefab", spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+            PhotonNetwork.Instantiate("bullet", spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         }
         else
         {

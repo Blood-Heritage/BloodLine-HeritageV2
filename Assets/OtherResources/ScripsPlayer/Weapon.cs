@@ -17,10 +17,6 @@ public class weapon : MonoBehaviour
     public InputActionReference shoot;
     private float _shoot;
 
-    private void Start()
-    {
-        // isShootingHash = Animator.StringToHash("isShooting");
-    }
 
 
     // Update is called once per frame
