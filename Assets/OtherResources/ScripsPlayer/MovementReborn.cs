@@ -227,19 +227,20 @@ public class MovementReborn : MonoBehaviourPun
 
     private void Update()
     {
+        try
+        {
         if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
-        
+
         Move();
         Animation();
 
-        
         if (isAimingPressed || isShootingPressed)
         {
             aimCam.Priority = 30;
             Sensitivity = 0.5f;
-            
+
             Rotate(0.05f);
-            
+
             aimRigWeight = 1f;
         }
         else
@@ -248,8 +249,13 @@ public class MovementReborn : MonoBehaviourPun
             Sensitivity = 1f;
             aimRigWeight = 0f;
         }
-        
-        aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight , Time.deltaTime * 20f);
+
+        aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
+        }
+        catch
+        {
+            return;
+        }
     }
 
     

@@ -53,6 +53,5 @@ void Start()
         currentDestinationIndex = destinationPoints.Length;
         
         agent.SetDestination(destinationPoints[new_value].position);
-        Debug.Log("Nouvelle destination : " + destinationPoints[new_value].name);
     }
 }
