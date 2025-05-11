@@ -57,11 +57,6 @@ public class BulletProjectile : MonoBehaviour
                 
                 otro.RPC("TakeDamage", RpcTarget.AllBuffered, damage);
                 Debug.Log("A player was hit");
-                
-                // var health = other.GetComponent<Health>();
-                // if (health == null) Debug.LogError("Player doesn't have health component");
-                // else health.TakeDamage(damage);
-                //
             }
         }
         

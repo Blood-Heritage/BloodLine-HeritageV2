@@ -5,9 +5,7 @@ using System.Collections;
 
 public class BARManager : MonoBehaviourPun
 {
-
-
-    // NE PAS TOUCHER PLEASE
+    // NE PAS TOUCHER PLEASE, trop tard
     
     public static BARManager Instance;
 
@@ -17,15 +15,14 @@ public class BARManager : MonoBehaviourPun
     public float health => healthComponent.health;
     public float maxHealth => healthComponent.maxHealth;
     
-
-    [Header("UI")]
+    [Header("UI")] 
     public Image healthBar; // Assign in Inspector
     public GameObject deathUI; // Assign in Inspector
     public Health healthComponent;
 
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
-    
+
     private bool isDead = false;
     private PhotonView photonView;
 
@@ -52,50 +49,10 @@ public class BARManager : MonoBehaviourPun
                 statePause = !statePause;
                 pausePanel.SetActive(statePause);
             }
-            
+
             UpdateHealthBar();
         }
-        
-        // if (Input.GetKeyDown(KeyCode.C))
-        // {
-        //     TakeDamage(10);
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.Z))
-        // {
-        //     Heal(10);
-        // }
-
     }
-
-    // public void TakeDamage(float damage)
-    // {
-    //     
-    //     if (!photonView.IsMine|| isDead || photonView == null) return;
-    //
-    //     health -= damage;
-    //     health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
-    //
-    //     UpdateHealthBar();
-    //
-    //     
-    //     /*
-    //      until proper death screen 
-    //      
-    //     if (health <= 0)
-    //         Die();
-    //     */
-    // }
-    //
-    // public void Heal(float healAmount)
-    // {
-    //     if (isDead) return;
-    //
-    //     health += healAmount;
-    //     health = Mathf.Clamp(health, 0, maxHealth);
-    //
-    //     UpdateHealthBar();
-    // }
 
     private void UpdateHealthBar()
     {
@@ -106,7 +63,7 @@ public class BARManager : MonoBehaviourPun
         }
     }
 
-    
+
     /*
     private void Die()
     {
@@ -144,6 +101,4 @@ public class BARManager : MonoBehaviourPun
             staminaBar.fillAmount = currentStamina / maxStamina;
         }
     }
-
-
 }
