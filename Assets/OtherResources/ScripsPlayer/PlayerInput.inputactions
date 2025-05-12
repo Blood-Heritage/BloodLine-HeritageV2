@@ -15,15 +15,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Fire-mouse",
-                    "type": "Button",
-                    "id": "3421afd6-ca9a-4494-808e-4100a4d7a2fc",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Move",
                     "type": "Value",
                     "id": "0dfdf54e-5c92-433f-aaa2-5dec785dd08f",
@@ -58,20 +49,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "92ad48cb-6460-4be0-9fb1-29c87301d206",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "647b084a-8473-484e-85c5-c0417db97118",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard;Mouse",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "b9d51bb3-3420-4bc5-b49f-caa6a8e1cfce",
@@ -80,17 +69,6 @@
                     "processors": "",
                     "groups": ";Mouse;Keyboard",
                     "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4a4d5400-af39-4894-a014-298a0ca4764d",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Mouse",
-                    "action": "Fire-mouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -239,23 +217,23 @@
                 },
                 {
                     "name": "",
-                    "id": "e7dd99f7-8ee5-4e40-aeb6-f76d1f52c219",
-                    "path": "<Keyboard>/p",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Mouse;Keyboard",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "8c4b8322-a65c-4070-bc9d-0e452809ca7f",
                     "path": "<Pointer>/delta",
                     "interactions": "",
                     "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
                     "groups": ";Keyboard;Mouse",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e2efd8b-ec7f-4245-8340-b5966f4e9373",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard;Mouse",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

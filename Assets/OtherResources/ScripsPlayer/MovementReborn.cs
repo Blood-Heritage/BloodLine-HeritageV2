@@ -4,14 +4,15 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Serialization;
 
 public class MovementReborn : MonoBehaviourPun
 {
     private float speed;
-    public float moveSpeed = 5;
-    public float runningSpeed = 8;
-    public int acceleration = 2;
-    public int deceleration = 2;
+    public float moveSpeed;
+    public float runningSpeed;
+    public int acceleration;
+    public int deceleration;
     
     public ICinemachineCamera normal;
     public ICinemachineCamera aimCam;
@@ -54,7 +55,6 @@ public class MovementReborn : MonoBehaviourPun
         _cinemachineTargetYaw = activeCam.transform.rotation.eulerAngles.y;
     }
     
-
     
     Vector2 currentMovementInput;
     Vector3 currentMovement;
@@ -62,6 +62,7 @@ public class MovementReborn : MonoBehaviourPun
     public bool isRunningPressed;
     public bool isMovementPressed;
     public bool isShootingPressed;
+    public bool isJumpingPressed;
     public bool isAimingPressed;
     
     [Header("ThirdPersonController Unity")]
@@ -80,6 +81,7 @@ public class MovementReborn : MonoBehaviourPun
     
     
     int isShootingHash;
+    int isJumpingHash;
     int velocityXHash;
     int velocityZHash;
 
@@ -92,6 +94,26 @@ public class MovementReborn : MonoBehaviourPun
     [Header("Rigging")]
     [SerializeField] private Rig aimRig;
     [SerializeField] private float aimRigWeight;
+
+
+    [Header("Jumping")] 
+    public bool isJumping = false;
+    public float maxJumpHeight = 1.0f;
+    public float maxJumpTime = 0.5f;
+    private float _initialJumpVelocity = 0.0f;
+    private float _initialJumpVelocityRunning = 0.0f;
+    
+    // gravity
+    public float gravity = -9.8f;
+    public float groundedGravity = -0.05f;
+
+    void setupJumpVariables()
+    {
+        float timeToApex = maxJumpTime / 2;
+        gravity = (float)((-2 * maxJumpHeight) / Math.Pow(timeToApex, 2));
+        _initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+        _initialJumpVelocityRunning = 0.75f * (2 * maxJumpHeight) / timeToApex;
+    }
     
     private void Awake()
     {
@@ -104,6 +126,7 @@ public class MovementReborn : MonoBehaviourPun
         velocityXHash = Animator.StringToHash("Velocity X");
         velocityZHash = Animator.StringToHash("Velocity Z");
         isShootingHash = Animator.StringToHash("isShooting");
+        isJumpingHash = Animator.StringToHash("isJumping");
 
         TorsoLayer = animator.GetLayerIndex("Torso");
         ShootingLayer = animator.GetLayerIndex("Aim");
@@ -124,9 +147,14 @@ public class MovementReborn : MonoBehaviourPun
         
         playerInput.CharacterControls.Aim.started += OnAimingInput;
         playerInput.CharacterControls.Aim.canceled += OnAimingInput;
+ 
+        playerInput.CharacterControls.Jump.started += OnJumpInput;
+        playerInput.CharacterControls.Jump.canceled += OnJumpInput;
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        setupJumpVariables();
     }
     
     
@@ -223,41 +251,82 @@ public class MovementReborn : MonoBehaviourPun
         // Debug.Log($"currentMovementInput: {currentMovementInput}");
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
     }
+
+    void OnJumpInput(InputAction.CallbackContext context)
+    {
+        isJumpingPressed = context.ReadValueAsButton();
+    }
     
 
     private void Update()
     {
-        try
-        {
         if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
 
-        Move();
         Animation();
+        UpdateCameras();
+        
+        Move();
+        Rotate(RotationSmoothTime);
+        
+        handleGravity();
+        handleJump();
+    }
 
+    private void handleJump()
+    {
+        if (!isJumping && cc.isGrounded && isJumpingPressed)
+        {
+            isJumping = true;
+
+            if (isRunningPressed)
+                currentMovement.y = _initialJumpVelocityRunning;
+            else
+                currentMovement.y = _initialJumpVelocity;
+            
+        } else if (!isJumpingPressed && cc.isGrounded && isJumping)
+        {
+            isJumping = false;
+        }
+    }
+
+    private void handleGravity()
+    {
+        if (cc.isGrounded)
+        {
+            currentMovement.y = groundedGravity;
+        }
+
+        else
+        {
+            float previousYVelocity = currentMovement.y;
+            float newYVelocity = currentMovement.y + (gravity * Time.deltaTime);
+            float nextYVelocity = (previousYVelocity + newYVelocity) * 0.5f;
+            
+            currentMovement.y = nextYVelocity;
+        }
+    }
+
+    private void UpdateCameras()
+    {
         if (isAimingPressed || isShootingPressed)
         {
             aimCam.Priority = 30;
             Sensitivity = 0.5f;
-
-            Rotate(0.05f);
-
             aimRigWeight = 1f;
+            RotationSmoothTime = 0.05f;
         }
         else
         {
             aimCam.Priority = 10;
             Sensitivity = 1f;
             aimRigWeight = 0f;
+            RotationSmoothTime = 0.12f;
         }
-
+        
+        // for pointing the gun to the center of the screen
+        // I don't remember how it works
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
-        }
-        catch
-        {
-            return;
-        }
     }
-
     
     private float RotationFloat(float duration)
     {
@@ -294,10 +363,8 @@ public class MovementReborn : MonoBehaviourPun
 
     private void Move()
     {
+        Vector3 yVelocity = new Vector3(0, currentMovement.y, 0);
         
-        // ApplyGravity();
-        // Vector3 movement = (transform.forward);
-
         if (isMovementPressed)
         {
             // speed = runningSpeed
@@ -317,9 +384,9 @@ public class MovementReborn : MonoBehaviourPun
             
             cc.Move(targetDirection.normalized * 
                     (speed * Time.deltaTime)); //+ new Vector3(0.0f, 0, 0.0f) * Time.deltaTime);
-                
-            Rotate(RotationSmoothTime);
         }
+        
+        cc.Move(yVelocity * Time.deltaTime);
     }
 
     
@@ -343,6 +410,7 @@ public class MovementReborn : MonoBehaviourPun
     void Animation()
     {
         bool isShooting = animator.GetBool(isShootingHash);
+        bool isJumping = animator.GetBool(isJumpingHash);
 
         if (isShootingPressed || isAimingPressed) animator.SetLayerWeight(TorsoLayer, 0.5f);
         else animator.SetLayerWeight(TorsoLayer, 0.0f);
@@ -366,6 +434,21 @@ public class MovementReborn : MonoBehaviourPun
             animator.SetBool(isShootingHash, false);
         }
         
+         
+        // Jumping
+         
+        if (isJumpingPressed && !isJumping)
+        {
+            // animator.SetLayerWeight(JumpingLayer, 1.0f);
+            animator.SetBool(isJumpingHash, true);
+        }
+
+        if (!isJumpingPressed && isJumping && animator)
+        {
+            // animator.SetLayerWeight(JumpingLayer, 0.0f);
+            animator.SetBool(isJumpingHash, false);
+        }
+        
 
         // --- Movement logic with acceleration ---
         Vector2 targetVelocity = Vector2.zero;
@@ -378,7 +461,8 @@ public class MovementReborn : MonoBehaviourPun
             float zSign = Mathf.Sign(currentMovement.z);
             // float xSign = Mathf.Sign(currentMovement.x);
 
-            targetVelocity = new Vector2(currentMovement.x, baseZ * zSign);        }
+            targetVelocity = new Vector2(currentMovement.x, baseZ * zSign);        
+        }
 
         // Smooth acceleration/deceleration for Z
         if (Mathf.Abs(Velocity_Z - targetVelocity.y) > 0.01f)

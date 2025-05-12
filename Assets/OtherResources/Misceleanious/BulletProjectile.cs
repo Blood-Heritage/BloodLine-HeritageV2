@@ -21,6 +21,11 @@ public class BulletProjectile : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
+    public bool IsOnline()
+    {
+        return PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
+    }
+
     private void Start()
     {
         bulletRigidBody.velocity = transform.forward * bulletSpeed;
@@ -28,37 +33,55 @@ public class BulletProjectile : MonoBehaviour
 
     private void Update()
     {
-        if (photonView.IsMine)
+        if (IsOnline())
+        {
+            if (photonView.IsMine)
+            {
+                timer += Time.deltaTime;
+                if (timer >= maxLife)
+                {
+                    PhotonNetwork.Destroy(gameObject);
+                }
+            }
+        }
+        else
         {
             timer += Time.deltaTime;
             if (timer >= maxLife)
             {
-                PhotonNetwork.Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        PhotonNetwork.Destroy(gameObject);
-        if (photonView.IsMine)
+        if (IsOnline())
         {
-            Instantiate(impactPrefab, transform.position, Quaternion.identity);
-
-            // if the other object has the tag player
-            if (other.gameObject.CompareTag("Player"))
+            PhotonNetwork.Destroy(gameObject);
+            if (photonView.IsMine)
             {
-                PhotonView otro = other.gameObject.GetComponent<PhotonView>();
-                if (otro == null)
+                Instantiate(impactPrefab, transform.position, Quaternion.identity);
+
+                // if the other object has the tag player
+                if (other.gameObject.CompareTag("Player"))
                 {
-                    Debug.LogError("No PhotonView Associated with player");
-                    return;
-                }
+                    PhotonView otro = other.gameObject.GetComponent<PhotonView>();
+                    if (otro == null)
+                    {
+                        Debug.LogError("No PhotonView Associated with player");
+                        return;
+                    }
                 
-                otro.RPC("TakeDamage", RpcTarget.AllBuffered, damage);
-                Debug.Log("A player was hit");
+                    otro.RPC("TakeDamage", RpcTarget.AllBuffered, damage);
+                    Debug.Log("A player was hit");
+                }
             }
         }
-        
+        else
+        {
+            Destroy(gameObject);       
+            Instantiate(impactPrefab, transform.position, Quaternion.identity);
+        }
     }
 }
