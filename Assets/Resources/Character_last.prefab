@@ -1123,17 +1123,11 @@ MonoBehaviour:
   isRunningPressed: 0
   isMovementPressed: 0
   isShootingPressed: 0
-  isJumpingPressed: 0
   isAimingPressed: 0
   RotationSmoothTime: 0.12
   animator: {fileID: 9581884}
   aimRig: {fileID: 1487409873114895327}
   aimRigWeight: 0
-  isJumping: 0
-  maxJumpHeight: 1
-  maxJumpTime: 0.5
-  gravity: -9.8
-  groundedGravity: -0.05
   LockCameraPosition: 0
   TopClamp: 70
   BottomClamp: -30

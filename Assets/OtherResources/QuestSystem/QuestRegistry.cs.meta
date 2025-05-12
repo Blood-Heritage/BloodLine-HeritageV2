@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2af10da3cbe04ae3be99e012ae15e6e0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ToyotaBomba: {instanceID: 0}
+  - AnimationExplosion: {fileID: 5708832094838339525, guid: 478c39cef8f3fc2458e7c0b1e96bddc7,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
