@@ -3,6 +3,9 @@ using Photon.Pun;
 
 public class Health : MonoBehaviourPun
 {
+    public float maxHealth = 100f;
+    public float health = 100f;
+    
     private void Start()
     {
         if (photonView.IsMine && BARManager.Instance != null)
@@ -12,11 +15,9 @@ public class Health : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
-        if (!photonView.IsMine) return;
-
-        if (BARManager.Instance != null)
-            BARManager.Instance.TakeDamage(damage);
+        health -= damage;
+        health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
     }
 }

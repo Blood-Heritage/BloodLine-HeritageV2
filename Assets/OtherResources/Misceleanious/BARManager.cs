@@ -5,23 +5,24 @@ using System.Collections;
 
 public class BARManager : MonoBehaviourPun
 {
-
-
-    // NE PAS TOUCHER PLEASE
+    // NE PAS TOUCHER PLEASE, trop tard
     
     public static BARManager Instance;
 
-    [Header("Health Settings")]
-    public float health = 100;
-    public float maxHealth = 100;
-
-    [Header("UI")]
+    // [Header("Health Settings")]
+    // public float health = 100;
+    // public float maxHealth = 100;
+    public float health => healthComponent.health;
+    public float maxHealth => healthComponent.maxHealth;
+    
+    [Header("UI")] 
     public Image healthBar; // Assign in Inspector
     public GameObject deathUI; // Assign in Inspector
-    
+    public Health healthComponent;
+
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
-    
+
     private bool isDead = false;
     private PhotonView photonView;
 
@@ -36,49 +37,21 @@ public class BARManager : MonoBehaviourPun
     public void AssignPlayer(PhotonView playerView)
     {
         photonView = playerView;
-       
+        healthComponent = playerView.gameObject.GetComponent<Health>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (photonView.IsMine)
         {
-            TakeDamage(10);
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                statePause = !statePause;
+                pausePanel.SetActive(statePause);
+            }
+
+            UpdateHealthBar();
         }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            Heal(10);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            statePause = !statePause;
-            pausePanel.SetActive(statePause);
-        }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        if (!photonView.IsMine|| isDead || photonView == null) return;
-
-        health -= damage;
-        health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
-
-        UpdateHealthBar();
-
-        if (health <= 0)
-            Die();
-    }
-
-    public void Heal(float healAmount)
-    {
-        if (isDead) return;
-
-        health += healAmount;
-        health = Mathf.Clamp(health, 0, maxHealth);
-
-        UpdateHealthBar();
     }
 
     private void UpdateHealthBar()
@@ -90,6 +63,8 @@ public class BARManager : MonoBehaviourPun
         }
     }
 
+
+    /*
     private void Die()
     {
         if (isDead) return;
@@ -103,15 +78,18 @@ public class BARManager : MonoBehaviourPun
             if (deathUI != null)
                 deathUI.SetActive(true);
 
-            StartCoroutine(WaitBeforeSceneChange(5f));
+            // StartCoroutine(WaitBeforeSceneChange(5f));
         }
     }
+    */
 
+    /*
     private IEnumerator WaitBeforeSceneChange(float delay)
     {
         yield return new WaitForSeconds(delay); // Wait for the delay time
         PhotonNetwork.LoadLevel("MenuStart"); // Sync scene transition
     }
+    */
 
     public Image staminaBar; // UI element for the stamina bar
 
@@ -123,6 +101,4 @@ public class BARManager : MonoBehaviourPun
             staminaBar.fillAmount = currentStamina / maxStamina;
         }
     }
-
-
 }

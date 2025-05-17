@@ -24,12 +24,19 @@ public class Stamina : MonoBehaviourPun
         currentStamina = maxStamina;
         movement = GetComponent<MovementReborn>();
     }
+    
+    // for testing
+    private static bool IsOnline()
+    {
+        return PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
+    }
 
     private void Update()
     {
         if (!photonView.IsMine) return;
         
 
+        // if (health)
         if (movement.animator.GetBool(isRunningHash) && !movement.animator.GetBool(isShootingHash)) // && currentStamina > staminaThreshold)
         {
             DrainStamina();
@@ -39,15 +46,14 @@ public class Stamina : MonoBehaviourPun
             RegenerateStamina();
         }
         
-        BARManager.Instance.UpdateStaminaBar(currentStamina, maxStamina);
-        // movement.Animation();
+        if (IsOnline()) BARManager.Instance.UpdateStaminaBar(currentStamina, maxStamina);
     }
 
     public void DrainStamina()
     {
         if (isExhausted) return;
         
-        Debug.Log("Draining stamina");
+        // Debug.Log("Draining stamina");
         currentStamina -= staminaDrainRate * Time.deltaTime;
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
 
@@ -71,7 +77,7 @@ public class Stamina : MonoBehaviourPun
 
     public void RegenerateStamina()
     {
-        Debug.Log("Regenerating stamina");
+        // Debug.Log("Regenerating stamina");
         currentStamina += staminaRegenRate * Time.deltaTime;
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
     }
