@@ -15,7 +15,7 @@ public class Stats : MonoBehaviourPun
     public float staminaDrainRate = 15f; // Stamina decrease per second while running
     public float staminaRegenRate = 10f; // Stamina increase per second while not running
     // public float staminaThreshold = 10f; // Minimum stamina required to run
-    public float staminaCooldown = 5f;    // Time before player can run again when stamina is 0
+    public float staminaCooldown = 3f;    // Time before player can run again when stamina is 0
     public bool CanRun => !isExhausted;
     private bool isExhausted = false;
     
@@ -31,6 +31,7 @@ public class Stats : MonoBehaviourPun
         if (photonView.IsMine && BARManager.Instance != null)
         {
             BARManager.Instance.AssignPlayer(photonView);
+            stamina = maxStamina;
         }
     }
 
@@ -45,8 +46,7 @@ public class Stats : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
         
-        // if (health)
-        if (movement.isRunningPressed && !movement.isShootingPressed) // && currentStamina > staminaThreshold)
+        if (!isExhausted && movement.isRunningPressed && !movement.isShootingPressed) // && currentStamina > staminaThreshold)
             DrainStamina();
         else
             RegenerateStamina();
@@ -54,8 +54,6 @@ public class Stats : MonoBehaviourPun
 
     public void DrainStamina()
     {
-        if (isExhausted) return;
-        
         // Debug.Log("Draining stamina");
         stamina -= staminaDrainRate * Time.deltaTime;
         stamina = Mathf.Clamp(stamina, 0, maxStamina);
