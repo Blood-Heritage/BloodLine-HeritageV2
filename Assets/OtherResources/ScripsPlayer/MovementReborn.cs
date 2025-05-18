@@ -14,6 +14,59 @@ public class MovementReborn : MonoBehaviourPun
     public int acceleration;
     public int deceleration;
     
+    Vector2 currentMovementInput;
+    Vector3 currentMovement;
+    Vector3 moveDirection;
+    
+    public bool isRunningPressed;
+    public bool isMovementPressed;
+    public bool isShootingPressed;
+    public bool isJumpingPressed;
+    public bool isAimingPressed;
+    
+    [Header("ThirdPersonController Unity")]
+    private float _targetRotation = 0.0f;
+    private float _rotationVelocity;
+    
+    [Tooltip("How fast the character turns to face movement direction")]
+    [Range(0.0f, 0.3f)]
+    public float RotationSmoothTime = 0.12f; // 0.12f
+    
+    private PlayerInput playerInput;
+    
+    CharacterController cc;
+    public Animator animator;
+    
+    
+    int isShootingHash;
+    int isJumpingHash;
+    int velocityXHash;
+    int velocityZHash;
+
+    int TorsoLayer;
+    int ShootingLayer;
+
+    private float Velocity_X = 0.0f;
+    private float Velocity_Z = 0.0f;
+
+    [Header("Rigging")]
+    [SerializeField] private Rig aimRig;
+    [SerializeField] private float aimRigWeight;
+
+
+    [Header("Jumping")] 
+    public bool isJumping = false;
+    public float maxJumpHeight = 1.0f;
+    public float maxJumpTime = 0.5f;
+    private float _initialJumpVelocity = 0.0f;
+    private float _initialJumpVelocityRunning = 0.0f;
+    
+    [Header("gravity")]
+    public float gravity = -9.8f;
+    public float groundedGravity = -0.05f;
+
+    private Stats _stats;
+    
     public ICinemachineCamera normal;
     public ICinemachineCamera aimCam;
     
@@ -55,58 +108,6 @@ public class MovementReborn : MonoBehaviourPun
         _cinemachineTargetYaw = activeCam.transform.rotation.eulerAngles.y;
     }
     
-    
-    Vector2 currentMovementInput;
-    Vector3 currentMovement;
-    
-    public bool isRunningPressed;
-    public bool isMovementPressed;
-    public bool isShootingPressed;
-    public bool isJumpingPressed;
-    public bool isAimingPressed;
-    
-    [Header("ThirdPersonController Unity")]
-    private float _targetRotation = 0.0f;
-    private float _rotationVelocity;
-    
-    [Tooltip("How fast the character turns to face movement direction")]
-    [Range(0.0f, 0.3f)]
-    public float RotationSmoothTime = 0.12f; // 0.12f
-    
-    private PlayerInput playerInput;
-    
-    Vector3 moveDirection;
-    CharacterController cc;
-    public Animator animator;
-    
-    
-    int isShootingHash;
-    int isJumpingHash;
-    int velocityXHash;
-    int velocityZHash;
-
-    int TorsoLayer;
-    int ShootingLayer;
-
-    private float Velocity_X = 0.0f;
-    private float Velocity_Z = 0.0f;
-
-    [Header("Rigging")]
-    [SerializeField] private Rig aimRig;
-    [SerializeField] private float aimRigWeight;
-
-
-    [Header("Jumping")] 
-    public bool isJumping = false;
-    public float maxJumpHeight = 1.0f;
-    public float maxJumpTime = 0.5f;
-    private float _initialJumpVelocity = 0.0f;
-    private float _initialJumpVelocityRunning = 0.0f;
-    
-    // gravity
-    public float gravity = -9.8f;
-    public float groundedGravity = -0.05f;
-
     void setupJumpVariables()
     {
         float timeToApex = maxJumpTime / 2;
@@ -120,6 +121,7 @@ public class MovementReborn : MonoBehaviourPun
         playerInput = new PlayerInput();
         animator = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
+        _stats = GetComponent<Stats>();
         
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         
@@ -370,7 +372,7 @@ public class MovementReborn : MonoBehaviourPun
             // speed = runningSpeed
             if (isRunningPressed)
             {
-                if (isShootingPressed || isAimingPressed || GoingBackwards) speed = moveSpeed / 2;
+                if (isShootingPressed || isAimingPressed || GoingBackwards || !_stats.CanRun) speed = moveSpeed / 2;
                 else speed = runningSpeed;
             }
             else speed = moveSpeed;
@@ -455,7 +457,7 @@ public class MovementReborn : MonoBehaviourPun
 
         if (isMovementPressed)
         {
-            float baseZ = isRunningPressed && !isAimingPressed && !GoingBackwards ? 2.0f : 0.5f;
+            float baseZ = isRunningPressed && _stats.CanRun && !isAimingPressed && !GoingBackwards ? 2.0f : 0.5f;
 
             // Direcciones correctas (adelante o atrás)
             float zSign = Mathf.Sign(currentMovement.z);
