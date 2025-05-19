@@ -51,7 +51,7 @@ public class weapon : MonoBehaviour
             
             // var effect = Instantiate(impactVFX, hit.point, Quaternion.LookRotation(hit.normal));
             
-            if (hit.transform.gameObject.GetComponent<Health>())
+            if (hit.transform.gameObject.GetComponent<Stats>())
                 hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
              
         }

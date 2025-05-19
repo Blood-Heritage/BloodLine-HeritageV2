@@ -5,20 +5,24 @@ using System.Collections;
 
 public class BARManager : MonoBehaviourPun
 {
-    // NE PAS TOUCHER PLEASE, trop tard
+    // NE PAS TOUCHER PLEASE, trop tard (Ethan)
     
     public static BARManager Instance;
 
     // [Header("Health Settings")]
     // public float health = 100;
     // public float maxHealth = 100;
-    public float health => healthComponent.health;
-    public float maxHealth => healthComponent.maxHealth;
+    
+    public Stats statsComponent;
+    public float health => statsComponent.health;
+    public float maxHealth => statsComponent.maxHealth;
+    public float stamina => statsComponent.stamina;
+    public float maxStamina => statsComponent.maxStamina;
     
     [Header("UI")] 
     public Image healthBar; // Assign in Inspector
+    public Image staminaBar; // UI element for the stamina bar
     public GameObject deathUI; // Assign in Inspector
-    public Health healthComponent;
 
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
@@ -37,7 +41,7 @@ public class BARManager : MonoBehaviourPun
     public void AssignPlayer(PhotonView playerView)
     {
         photonView = playerView;
-        healthComponent = playerView.gameObject.GetComponent<Health>();
+        statsComponent = playerView.gameObject.GetComponent<Stats>();
     }
 
     private void Update()
@@ -50,10 +54,16 @@ public class BARManager : MonoBehaviourPun
                 pausePanel.SetActive(statePause);
             }
 
-            UpdateHealthBar();
+            UpdateBars();
         }
     }
 
+    private void UpdateBars()
+    {
+        UpdateHealthBar();
+        UpdateStaminaBar();
+    }
+    
     private void UpdateHealthBar()
     {
         if (healthBar != null)
@@ -63,6 +73,13 @@ public class BARManager : MonoBehaviourPun
         }
     }
 
+    public void UpdateStaminaBar()
+    {
+        if (staminaBar != null)
+        {
+            staminaBar.fillAmount = stamina / maxStamina;
+        }
+    }
 
     /*
     private void Die()
@@ -91,14 +108,5 @@ public class BARManager : MonoBehaviourPun
     }
     */
 
-    public Image staminaBar; // UI element for the stamina bar
 
-    // Updates the stamina bar UI based on the current stamina
-    public void UpdateStaminaBar(float currentStamina, float maxStamina)
-    {
-        if (staminaBar != null)
-        {
-            staminaBar.fillAmount = currentStamina / maxStamina;
-        }
-    }
 }

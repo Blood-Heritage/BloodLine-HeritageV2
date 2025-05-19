@@ -955,14 +955,13 @@ GameObject:
   - component: {fileID: 5258580664030171610}
   - component: {fileID: -3864016641322122961}
   - component: {fileID: 8812673187136899779}
-  - component: {fileID: -7349470399614710659}
   - component: {fileID: 1156768632394632570}
   - component: {fileID: 768092432860539697}
   - component: {fileID: 1302223699412738269}
-  - component: {fileID: -4078430610723207532}
   - component: {fileID: 6058051064750257890}
   - component: {fileID: 7333149438039311960}
   - component: {fileID: 4877539875931831431}
+  - component: {fileID: 583417692849542478}
   m_Layer: 0
   m_Name: Character_last
   m_TagString: Player
@@ -1103,20 +1102,6 @@ MonoBehaviour:
     LayerIndex: 1
   - SynchronizeType: 1
     LayerIndex: 2
---- !u!114 &-7349470399614710659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 128674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32fc25142bc881a8c9edeab94e06352d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  health: 100
 --- !u!114 &1156768632394632570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,11 +1121,17 @@ MonoBehaviour:
   isRunningPressed: 0
   isMovementPressed: 0
   isShootingPressed: 0
+  isJumpingPressed: 0
   isAimingPressed: 0
   RotationSmoothTime: 0.12
   animator: {fileID: 9581884}
   aimRig: {fileID: 1487409873114895327}
   aimRigWeight: 0
+  isJumping: 0
+  maxJumpHeight: 1
+  maxJumpTime: 0.5
+  gravity: -9.8
+  groundedGravity: -0.05
   LockCameraPosition: 0
   TopClamp: 70
   BottomClamp: -30
@@ -1187,24 +1178,6 @@ CharacterController:
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &-4078430610723207532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 128674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0318436d42ad0a4dbd11477a852b8b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxStamina: 100
-  currentStamina: 0
-  staminaDrainRate: 15
-  staminaRegenRate: 10
-  isExhausted: 0
-  staminaCooldown: 5
 --- !u!114 &6058051064750257890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,6 +1285,25 @@ MonoBehaviour:
   mouseWorldPosition: {fileID: 2379223414731804174}
   damage: 10
   fireRate: 1
+--- !u!114 &583417692849542478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a77c71ec7cf45e99cf335a490901e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  health: 100
+  maxStamina: 100
+  stamina: 0
+  staminaDrainRate: 15
+  staminaRegenRate: 10
+  staminaCooldown: 3
 --- !u!1 &131922
 GameObject:
   m_ObjectHideFlags: 0
