@@ -14,6 +14,13 @@ public class Health : MonoBehaviourPun
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C)) {
+            TakeDamage(10);
+        }
+    }
+
     [PunRPC]
     public void TakeDamage(int damage)
     {

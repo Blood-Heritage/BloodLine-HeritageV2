@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Serialization;
+using static BARManager;
 
 public class MovementReborn : MonoBehaviourPun
 {
@@ -13,12 +14,12 @@ public class MovementReborn : MonoBehaviourPun
     public float runningSpeed;
     public int acceleration;
     public int deceleration;
-    
+
     public ICinemachineCamera normal;
     public ICinemachineCamera aimCam;
-    
+
     private GameObject _mainCamera;
-    
+
     private GameObject activeCam
     {
         get
@@ -37,7 +38,7 @@ public class MovementReborn : MonoBehaviourPun
             return currentMovement.z < 0.0f;
         }
     }
-    
+
     public bool IsOnline()
     {
         return PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
@@ -51,35 +52,35 @@ public class MovementReborn : MonoBehaviourPun
         // priorize freelook
         normal.Priority = 20;
         aimCam.Priority = 10;
-        
+
         _cinemachineTargetYaw = activeCam.transform.rotation.eulerAngles.y;
     }
-    
-    
+
+
     Vector2 currentMovementInput;
     Vector3 currentMovement;
-    
+
     public bool isRunningPressed;
     public bool isMovementPressed;
     public bool isShootingPressed;
     public bool isJumpingPressed;
     public bool isAimingPressed;
-    
+
     [Header("ThirdPersonController Unity")]
     private float _targetRotation = 0.0f;
     private float _rotationVelocity;
-    
+
     [Tooltip("How fast the character turns to face movement direction")]
     [Range(0.0f, 0.3f)]
     public float RotationSmoothTime = 0.12f; // 0.12f
-    
+
     private PlayerInput playerInput;
-    
+
     Vector3 moveDirection;
     CharacterController cc;
     public Animator animator;
-    
-    
+
+
     int isShootingHash;
     int isJumpingHash;
     int velocityXHash;
@@ -96,13 +97,13 @@ public class MovementReborn : MonoBehaviourPun
     [SerializeField] private float aimRigWeight;
 
 
-    [Header("Jumping")] 
+    [Header("Jumping")]
     public bool isJumping = false;
     public float maxJumpHeight = 1.0f;
     public float maxJumpTime = 0.5f;
     private float _initialJumpVelocity = 0.0f;
     private float _initialJumpVelocityRunning = 0.0f;
-    
+
     // gravity
     public float gravity = -9.8f;
     public float groundedGravity = -0.05f;
@@ -114,15 +115,15 @@ public class MovementReborn : MonoBehaviourPun
         _initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
         _initialJumpVelocityRunning = 0.75f * (2 * maxJumpHeight) / timeToApex;
     }
-    
+
     private void Awake()
     {
         playerInput = new PlayerInput();
         animator = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
-        
+
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        
+
         velocityXHash = Animator.StringToHash("Velocity X");
         velocityZHash = Animator.StringToHash("Velocity Z");
         isShootingHash = Animator.StringToHash("isShooting");
@@ -130,90 +131,90 @@ public class MovementReborn : MonoBehaviourPun
 
         TorsoLayer = animator.GetLayerIndex("Torso");
         ShootingLayer = animator.GetLayerIndex("Aim");
-        
+
         // para empezar
         animator.SetLayerWeight(TorsoLayer, 0.0f);
-        
+
         playerInput.CharacterControls.Move.started += OnMovementInput;
         playerInput.CharacterControls.Move.performed += OnMovementInput;
         playerInput.CharacterControls.Move.canceled += OnMovementInput;
 
         playerInput.CharacterControls.Run.started += OnRunInput;
         playerInput.CharacterControls.Run.canceled += OnRunInput;
-        
-        
+
+
         playerInput.CharacterControls.Fire.started += OnFireInput;
         playerInput.CharacterControls.Fire.canceled += OnFireInput;
-        
+
         playerInput.CharacterControls.Aim.started += OnAimingInput;
         playerInput.CharacterControls.Aim.canceled += OnAimingInput;
- 
+
         playerInput.CharacterControls.Jump.started += OnJumpInput;
         playerInput.CharacterControls.Jump.canceled += OnJumpInput;
-        
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        
+
         setupJumpVariables();
     }
-    
-    
+
+
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
-    
-    
-    
+
+
+
     // cinemachine
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
-    
+
     private const float _threshold = 0.01f;
-    
+
     [Tooltip("For locking the camera position on all axis")]
     public bool LockCameraPosition = false;
-    
+
     [Tooltip("How far in degrees can you move the camera up")]
     public float TopClamp = 70.0f;
 
     [Tooltip("How far in degrees can you move the camera down")]
     public float BottomClamp = -30.0f;
-    
+
     [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
     public float CameraAngleOverride = 0.0f;
-    
-    
-    
+
+
+
     [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
     public GameObject CinemachineCameraTarget;
 
     [SerializeField] private float Sensitivity = 1f;
-    
+
     private void CameraRotation()
     {
         // if there is an input and camera position is not fixed
         var look = playerInput.CharacterControls.Look.ReadValue<Vector2>();
-        
+
         if (look.sqrMagnitude >= _threshold && !LockCameraPosition)
         {
             //Don't multiply mouse input by Time.deltaTime;
             float deltaTimeMultiplier = 1.0f;
-    
+
             _cinemachineTargetYaw += look.x * deltaTimeMultiplier * Sensitivity;
             _cinemachineTargetPitch += look.y * deltaTimeMultiplier * Sensitivity;
         }
-    
+
         // clamp our rotations so our values are limited 360 degrees
         _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
         _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
-    
+
         // Cinemachine will follow this target
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
-        
+
         // Debug.Log($"rotation active camera: {activeCam.transform.rotation}");
         // transform.forward = new Vector3(activeCam.transform.forward.x, 0, activeCam.transform.forward.z);
     }
@@ -225,6 +226,8 @@ public class MovementReborn : MonoBehaviourPun
             // fix bug of new spawn
             transform.position = new Vector3(-57, 10, 38);
         }
+        
+        _stamina = GetComponent<Stamina>();
     }
 
     void OnRunInput(InputAction.CallbackContext context)
@@ -242,12 +245,12 @@ public class MovementReborn : MonoBehaviourPun
         isShootingPressed = context.ReadValueAsButton();
     }
 
-    void OnMovementInput (InputAction.CallbackContext context)
+    void OnMovementInput(InputAction.CallbackContext context)
     {
         currentMovementInput = context.ReadValue<Vector2>();
         currentMovement.x = currentMovementInput.x;
         currentMovement.z = currentMovementInput.y;
-        
+
         // Debug.Log($"currentMovementInput: {currentMovementInput}");
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
     }
@@ -256,7 +259,7 @@ public class MovementReborn : MonoBehaviourPun
     {
         isJumpingPressed = context.ReadValueAsButton();
     }
-    
+
 
     private void Update()
     {
@@ -264,10 +267,18 @@ public class MovementReborn : MonoBehaviourPun
 
         Animation();
         UpdateCameras();
-        
+
+        if (!canRun)
+        {
+            runCooldownTimer -= Time.deltaTime;
+            if (runCooldownTimer <= 0f)
+            {
+                canRun = true;
+            }
+        }
         Move();
         Rotate(RotationSmoothTime);
-        
+
         handleGravity();
         handleJump();
     }
@@ -282,8 +293,9 @@ public class MovementReborn : MonoBehaviourPun
                 currentMovement.y = _initialJumpVelocityRunning;
             else
                 currentMovement.y = _initialJumpVelocity;
-            
-        } else if (!isJumpingPressed && cc.isGrounded && isJumping)
+
+        }
+        else if (!isJumpingPressed && cc.isGrounded && isJumping)
         {
             isJumping = false;
         }
@@ -301,7 +313,7 @@ public class MovementReborn : MonoBehaviourPun
             float previousYVelocity = currentMovement.y;
             float newYVelocity = currentMovement.y + (gravity * Time.deltaTime);
             float nextYVelocity = (previousYVelocity + newYVelocity) * 0.5f;
-            
+
             currentMovement.y = nextYVelocity;
         }
     }
@@ -322,12 +334,12 @@ public class MovementReborn : MonoBehaviourPun
             aimRigWeight = 0f;
             RotationSmoothTime = 0.12f;
         }
-        
+
         // for pointing the gun to the center of the screen
         // I don't remember how it works
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
     }
-    
+
     private float RotationFloat(float duration)
     {
         _targetRotation = Mathf.Atan2(currentMovement.x, currentMovement.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
@@ -346,50 +358,66 @@ public class MovementReborn : MonoBehaviourPun
     private void RotateFoward(float duration)
     {
         float rotation = RotationFloat(duration);
-        
+
         // rotate to face input direction relative to camera position
         transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
     }
-    
-    
+
+
     private void RotateBackwards(float duration)
     {
         _targetRotation = Mathf.Atan2(currentMovement.x, -currentMovement.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
         float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
             duration);
-        
+
         transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
     }
+
+    public float stamina = 30;
+    public float max_stamina = 30;
+
+    public BARManager Bar_Manager;
+
+    private bool canRun = true;
+    private float runCooldownTimer = 0f;
+    private const float runCooldownDuration = 10f;
+
+    private Stamina _stamina;
+
 
     private void Move()
     {
         Vector3 yVelocity = new Vector3(0, currentMovement.y, 0);
-        
+
         if (isMovementPressed)
         {
             // speed = runningSpeed
-            if (isRunningPressed)
+            if (isRunningPressed && !GoingBackwards && !isAimingPressed && !isShootingPressed && !stamina.isExhausted)
             {
-                if (isShootingPressed || isAimingPressed || GoingBackwards) speed = moveSpeed / 2;
-                else speed = runningSpeed;
+                speed = runningSpeed;
+                animator.SetBool(isRunningHash, true);
             }
-            else speed = moveSpeed;
-            
+            else
+            {
+                speed = moveSpeed;
+                animator.SetBool(isRunningHash, false);
+            }
+
             Vector3 targetDirection = new Vector3();
-            
+
             if (!GoingBackwards)
                 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-            else 
+            else
                 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.back;
-            
-            cc.Move(targetDirection.normalized * 
+
+            cc.Move(targetDirection.normalized *
                     (speed * Time.deltaTime)); //+ new Vector3(0.0f, 0, 0.0f) * Time.deltaTime);
         }
-        
+
         cc.Move(yVelocity * Time.deltaTime);
     }
 
-    
+
     private void LateUpdate()
     {
         CameraRotation();
@@ -399,8 +427,8 @@ public class MovementReborn : MonoBehaviourPun
     {
         playerInput.CharacterControls.Enable();
     }
-    
-    
+
+
     private void OnDisable()
     {
         playerInput.CharacterControls.Disable();
@@ -417,11 +445,11 @@ public class MovementReborn : MonoBehaviourPun
 
         if (isAimingPressed || isShootingPressed)
             animator.SetLayerWeight(ShootingLayer, 1.0f);
-        
+
         if (!isAimingPressed && !isShootingPressed)
             animator.SetLayerWeight(ShootingLayer, 0.0f);
-        
-        
+
+
         if (isShootingPressed && !isShooting)
         {
             // animator.SetLayerWeight(ShootingLayer, 1.0f);
@@ -433,10 +461,10 @@ public class MovementReborn : MonoBehaviourPun
             // animator.SetLayerWeight(ShootingLayer, 0.0f);
             animator.SetBool(isShootingHash, false);
         }
-        
-         
+
+
         // Jumping
-         
+
         if (isJumpingPressed && !isJumping)
         {
             // animator.SetLayerWeight(JumpingLayer, 1.0f);
@@ -448,7 +476,7 @@ public class MovementReborn : MonoBehaviourPun
             // animator.SetLayerWeight(JumpingLayer, 0.0f);
             animator.SetBool(isJumpingHash, false);
         }
-        
+
 
         // --- Movement logic with acceleration ---
         Vector2 targetVelocity = Vector2.zero;
@@ -461,7 +489,7 @@ public class MovementReborn : MonoBehaviourPun
             float zSign = Mathf.Sign(currentMovement.z);
             // float xSign = Mathf.Sign(currentMovement.x);
 
-            targetVelocity = new Vector2(currentMovement.x, baseZ * zSign);        
+            targetVelocity = new Vector2(currentMovement.x, baseZ * zSign);
         }
 
         // Smooth acceleration/deceleration for Z
@@ -483,7 +511,7 @@ public class MovementReborn : MonoBehaviourPun
             if (xDirection > 0 && Velocity_X > targetVelocity.x) Velocity_X = targetVelocity.x;
             if (xDirection < 0 && Velocity_X < targetVelocity.x) Velocity_X = targetVelocity.x;
         }
-        
+
         animator.SetFloat(velocityXHash, Velocity_X);
         animator.SetFloat(velocityZHash, Velocity_Z);
     }

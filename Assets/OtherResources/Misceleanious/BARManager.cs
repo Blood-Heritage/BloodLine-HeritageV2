@@ -49,6 +49,9 @@ public class BARManager : MonoBehaviourPun
                 statePause = !statePause;
                 pausePanel.SetActive(statePause);
             }
+            if (health <= 0) {
+                Die();
+            }
 
             UpdateHealthBar();
         }
@@ -63,34 +66,6 @@ public class BARManager : MonoBehaviourPun
         }
     }
 
-
-    /*
-    private void Die()
-    {
-        if (isDead) return;
-        isDead = true;
-        health = 0;
-
-        if (photonView.IsMine)
-        {
-            PhotonNetwork.Destroy(photonView.gameObject); // Destroy player object
-
-            if (deathUI != null)
-                deathUI.SetActive(true);
-
-            // StartCoroutine(WaitBeforeSceneChange(5f));
-        }
-    }
-    */
-
-    /*
-    private IEnumerator WaitBeforeSceneChange(float delay)
-    {
-        yield return new WaitForSeconds(delay); // Wait for the delay time
-        PhotonNetwork.LoadLevel("MenuStart"); // Sync scene transition
-    }
-    */
-
     public Image staminaBar; // UI element for the stamina bar
 
     // Updates the stamina bar UI based on the current stamina
@@ -101,4 +76,29 @@ public class BARManager : MonoBehaviourPun
             staminaBar.fillAmount = currentStamina / maxStamina;
         }
     }
+    
+    private void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        healthComponent.health = 0;
+
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(photonView.gameObject); // Destroy player object
+
+            if (deathUI != null)
+                deathUI.SetActive(true);
+
+        }
+    }
+
+    private IEnumerator WaitBeforeSceneChange(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Wait for the delay time
+        PhotonNetwork.LoadLevel("MenuStart"); // Sync scene transition
+    }
+    
+
+    
 }
