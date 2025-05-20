@@ -6,6 +6,7 @@ using System.Collections;
 public class BARManager : MonoBehaviourPun
 {
     // NE PAS TOUCHER PLEASE, trop tard (Ethan)
+    // NE PAS TOUCHER PLEASE, trop tard (Ethan)
     
     public static BARManager Instance;
 
@@ -29,6 +30,7 @@ public class BARManager : MonoBehaviourPun
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
     
+    
     private bool isDead = false;
     private PhotonView photonView;
 
@@ -45,6 +47,9 @@ public class BARManager : MonoBehaviourPun
         photonView = playerView;
         statsComponent = playerView.gameObject.GetComponent<Stats>();
         movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
+        statsComponent = playerView.gameObject.GetComponent<Stats>();
+        movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
+        
     }
 
     private void Update()
