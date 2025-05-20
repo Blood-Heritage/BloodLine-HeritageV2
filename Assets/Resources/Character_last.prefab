@@ -1138,9 +1138,6 @@ MonoBehaviour:
   CameraAngleOverride: 0
   CinemachineCameraTarget: {fileID: 2765675733469678959}
   Sensitivity: 1
-  stamina: 30
-  max_stamina: 30
-  Bar_Manager: {fileID: 0}
 --- !u!114 &768092432860539697
 MonoBehaviour:
   m_ObjectHideFlags: 0
