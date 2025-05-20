@@ -5,6 +5,8 @@ using Cinemachine;
 
 public class CameraHolder_GameScene : MonoBehaviour
 {
+   
+
     public void SetupCameras(GameObject character)
     {
         var charac = character.GetComponent<MovementReborn>();
@@ -52,5 +54,9 @@ public class CameraHolder_GameScene : MonoBehaviour
         }
         
         charac.SetCameras(normal!, aim!, normal!.VirtualCameraGameObject.transform);
+
+        
     }
+
+    
 }

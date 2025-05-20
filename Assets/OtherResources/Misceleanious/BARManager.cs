@@ -14,6 +14,8 @@ public class BARManager : MonoBehaviourPun
     // public float maxHealth = 100;
     
     public Stats statsComponent;
+
+    public MovementReborn movementComponent;
     public float health => statsComponent.health;
     public float maxHealth => statsComponent.maxHealth;
     public float stamina => statsComponent.stamina;
@@ -26,7 +28,7 @@ public class BARManager : MonoBehaviourPun
 
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
-
+    
     private bool isDead = false;
     private PhotonView photonView;
 
@@ -42,16 +44,31 @@ public class BARManager : MonoBehaviourPun
     {
         photonView = playerView;
         statsComponent = playerView.gameObject.GetComponent<Stats>();
+        movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
+        
     }
 
     private void Update()
     {
         if (photonView.IsMine)
         {
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             {
+
                 statePause = !statePause;
                 pausePanel.SetActive(statePause);
+                movementComponent.canMoveCamera = !movementComponent.canMoveCamera;
+            }
+
+            if (statePause)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
             }
 
             UpdateBars();

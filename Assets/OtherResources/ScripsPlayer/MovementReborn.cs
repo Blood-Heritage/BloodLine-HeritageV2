@@ -17,6 +17,8 @@ public class MovementReborn : MonoBehaviourPun
     Vector2 currentMovementInput;
     Vector3 currentMovement;
     Vector3 moveDirection;
+
+    public bool canMoveCamera;
     
     public bool isRunningPressed;
     public bool isMovementPressed;
@@ -222,6 +224,7 @@ public class MovementReborn : MonoBehaviourPun
 
     private void Start()
     {
+        canMoveCamera = true;
         if (IsOnline())
         {
             // fix bug of new spawn
@@ -263,7 +266,8 @@ public class MovementReborn : MonoBehaviourPun
     private void Update()
     {
         if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
-
+        if (!canMoveCamera) return;
+        
         Animation();
         UpdateCameras();
         
