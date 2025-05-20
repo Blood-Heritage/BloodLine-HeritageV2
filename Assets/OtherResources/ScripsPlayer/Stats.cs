@@ -46,7 +46,7 @@ public class Stats : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
         
-        if (!isExhausted && movement.isRunningPressed && !movement.isShootingPressed) // && currentStamina > staminaThreshold)
+        if (!isExhausted && movement.isRunningPressed && !movement.isShootingPressed && !movement.GoingBackwards) // && currentStamina > staminaThreshold)
             DrainStamina();
         else
             RegenerateStamina();

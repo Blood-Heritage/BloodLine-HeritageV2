@@ -85,7 +85,7 @@ public class MovementReborn : MonoBehaviourPun
     }
 
 
-    private bool GoingBackwards
+    public bool GoingBackwards
     {
         get
         {

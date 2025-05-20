@@ -77,7 +77,7 @@ public class BARManager : MonoBehaviourPun
 
             UpdateBars();
 
-            if (movementComponent.isAimingPressed)
+            if (movementComponent.isAimingPressed || movementComponent.isShootingPressed)
                 cursorCrosshair.SetActive(true);
             else
                 cursorCrosshair.SetActive(false);
