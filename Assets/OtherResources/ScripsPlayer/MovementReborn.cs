@@ -398,7 +398,9 @@ public class MovementReborn : MonoBehaviourPun
     
     private void LateUpdate()
     {
-        CameraRotation();
+        // Permet de ne plus bouger la camera pdnt le menu pause
+        if(canMoveCamera)
+            CameraRotation();
     }
 
     private void OnEnable()
