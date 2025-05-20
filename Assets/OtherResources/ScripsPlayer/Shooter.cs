@@ -46,7 +46,7 @@ public class Shooter : MonoBehaviour
             if (nextFire > 0)
                 nextFire -= Time.deltaTime;
 
-            if (movementReborn.isShootingPressed && nextFire <= 0 && movementReborn.canMoveCamera)
+            if (movementReborn.isShootingPressed && nextFire <= 0 && movementReborn.pauseIsNotPressed)
             {
                 Fire();
             }

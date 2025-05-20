@@ -18,7 +18,7 @@ public class MovementReborn : MonoBehaviourPun
     Vector3 currentMovement;
     Vector3 moveDirection;
 
-    public bool canMoveCamera;
+    public bool pauseIsNotPressed;
     
     public bool isRunningPressed;
     public bool isMovementPressed;
@@ -224,7 +224,7 @@ public class MovementReborn : MonoBehaviourPun
 
     private void Start()
     {
-        canMoveCamera = true;
+        pauseIsNotPressed = true;
         if (IsOnline())
         {
             // fix bug of new spawn
@@ -266,7 +266,11 @@ public class MovementReborn : MonoBehaviourPun
     private void Update()
     {
         if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
-        if (!canMoveCamera) return;
+        if (!pauseIsNotPressed)
+        {
+            ZeroAnimation();
+            return;
+        }
         
         Animation();
         UpdateCameras();
@@ -399,7 +403,7 @@ public class MovementReborn : MonoBehaviourPun
     private void LateUpdate()
     {
         // Permet de ne plus bouger la camera pdnt le menu pause
-        if(canMoveCamera)
+        if(pauseIsNotPressed)
             CameraRotation();
     }
 
@@ -414,6 +418,16 @@ public class MovementReborn : MonoBehaviourPun
         playerInput.CharacterControls.Disable();
     }
 
+
+    void ZeroAnimation()
+    {
+        animator.SetLayerWeight(TorsoLayer, 0.0f);
+        animator.SetLayerWeight(ShootingLayer, 0.0f);
+        animator.SetBool(isJumpingHash, false);
+        animator.SetBool(isShootingHash, false);
+        animator.SetFloat(velocityXHash, 0.0f);
+        animator.SetFloat(velocityZHash, 0.0f);
+    }
 
     void Animation()
     {

@@ -56,7 +56,7 @@ public class BARManager : MonoBehaviourPun
 
                 statePause = !statePause;
                 pausePanel.SetActive(statePause);
-                movementComponent.canMoveCamera = !movementComponent.canMoveCamera;
+                movementComponent.pauseIsNotPressed = !movementComponent.pauseIsNotPressed;
             }
 
             if (statePause)
