@@ -14,6 +14,7 @@ public class BARManager : MonoBehaviourPun
     // public float maxHealth = 100;
     
     public Stats statsComponent;
+    public MovementReborn movementComponent;
     public float health => statsComponent.health;
     public float maxHealth => statsComponent.maxHealth;
     public float stamina => statsComponent.stamina;
@@ -23,6 +24,7 @@ public class BARManager : MonoBehaviourPun
     public Image healthBar; // Assign in Inspector
     public Image staminaBar; // UI element for the stamina bar
     public GameObject deathUI; // Assign in Inspector
+    public GameObject cursorCrosshair;
 
     [SerializeField] private GameObject pausePanel;
     private bool statePause = false;
@@ -42,6 +44,7 @@ public class BARManager : MonoBehaviourPun
     {
         photonView = playerView;
         statsComponent = playerView.gameObject.GetComponent<Stats>();
+        movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
     }
 
     private void Update()
@@ -55,8 +58,16 @@ public class BARManager : MonoBehaviourPun
             }
 
             UpdateBars();
+
+            if (movementComponent.isAimingPressed)
+                cursorCrosshair.SetActive(true);
+            else
+                cursorCrosshair.SetActive(false);
         }
     }
+    
+    
+    
 
     private void UpdateBars()
     {
