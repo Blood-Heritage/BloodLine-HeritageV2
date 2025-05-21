@@ -18,8 +18,8 @@ public class MovementReborn : MonoBehaviourPun
     Vector3 currentMovement;
     Vector3 moveDirection;
 
+    [Header("State Manager")]
     public bool pauseIsNotPressed;
-    
     public bool isRunningPressed;
     public bool isMovementPressed;
     public bool isShootingPressed;
@@ -73,6 +73,7 @@ public class MovementReborn : MonoBehaviourPun
     public ICinemachineCamera aimCam;
     
     private GameObject _mainCamera;
+    
     
     private GameObject activeCam
     {
@@ -231,6 +232,7 @@ public class MovementReborn : MonoBehaviourPun
             transform.position = new Vector3(-57, 10, 38);
         }
     }
+
 
     void OnRunInput(InputAction.CallbackContext context)
     {

@@ -28,8 +28,9 @@ public class BARManager : MonoBehaviourPun
     public GameObject cursorCrosshair;
 
     [SerializeField] private GameObject pausePanel;
-    private bool statePause = false;
+    [SerializeField] public Minimap minimap;
     
+    private bool statePause = false;
     
     private bool isDead = false;
     private PhotonView photonView;
@@ -56,6 +57,11 @@ public class BARManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                minimap.Toggle();
+            }
+            
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             {
 

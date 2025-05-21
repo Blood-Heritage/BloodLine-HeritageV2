@@ -43,12 +43,15 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
                 }
                 
                 var minimapInstanance = Instantiate(minimap);
-                minimapInstanance.GetComponentInChildren<FollowCamera>().AssignTarget(player.transform);
+                var cameras = minimapInstanance.GetComponentsInChildren<FollowCamera>();
+                
+                foreach (var followCamera in cameras)
+                    followCamera.AssignTarget(player.transform);
                 
                 // hyper chiant
-                
-                
-                player.GetComponentInChildren<SetupCameraNav>().SetupCamera(minimapInstanance.GetComponentInChildren<Camera>());
+                Camera CameraMinimap = minimapInstanance.GetComponentInChildren<Camera>();
+                SetupCameraNav CanvasPlayer = player.GetComponentInChildren<SetupCameraNav>();
+                CanvasPlayer.SetupCamera(CameraMinimap);
             }
         }
     }
