@@ -8,6 +8,8 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
     public int vcPriority = 20;
     public GameObject playerPrefab; // Prefab du personnage
     public GameObject camerasPrefab;
+    public GameObject minimap;
+    
     void Start()
     {
         // Verifie que le prefab est assigne
@@ -18,9 +20,9 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
                 Debug.LogError("Player prefab is not assigned in the inspector!");
                 return;
             }
+            
             // Instancie le personnage pour ce joueur
             GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
-
 
             PhotonView view = player.GetComponent<PhotonView>();
             if (view.IsMine)
@@ -39,6 +41,14 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
                     wrapperScript.SetupCameras(player);
                     Debug.Log("it seems that the wrapper was found");
                 }
+                
+                var minimapInstanance = Instantiate(minimap);
+                minimapInstanance.GetComponentInChildren<FollowCamera>().AssignTarget(player.transform);
+                
+                // hyper chiant
+                
+                
+                player.GetComponentInChildren<SetupCameraNav>().SetupCamera(minimapInstanance.GetComponentInChildren<Camera>());
             }
         }
     }
