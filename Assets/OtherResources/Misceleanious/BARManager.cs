@@ -1,27 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
+
 using System.Collections;
 
 public class BARManager : MonoBehaviourPun
 {
     // NE PAS TOUCHER PLEASE, trop tard (Ethan)
-    // NE PAS TOUCHER PLEASE, trop tard (Ethan)
-    
+
     public static BARManager Instance;
 
-    // [Header("Health Settings")]
-    // public float health = 100;
-    // public float maxHealth = 100;
-    
     public Stats statsComponent;
     public MovementReborn movementComponent;
     public float health => statsComponent.health;
     public float maxHealth => statsComponent.maxHealth;
     public float stamina => statsComponent.stamina;
     public float maxStamina => statsComponent.maxStamina;
-    
-    [Header("UI")] 
+
+    [Header("UI")]
     public Image healthBar; // Assign in Inspector
     public Image staminaBar; // UI element for the stamina bar
     public GameObject deathUI; // Assign in Inspector
@@ -29,10 +26,9 @@ public class BARManager : MonoBehaviourPun
 
     [SerializeField] private GameObject pausePanel;
     [SerializeField] public Minimap minimap;
-    
     private bool statePause = false;
-    
-    private bool isDead = false;
+
+    private bool isDead => health <= 0;
     private PhotonView photonView;
 
     private void Awake()
@@ -48,9 +44,6 @@ public class BARManager : MonoBehaviourPun
         photonView = playerView;
         statsComponent = playerView.gameObject.GetComponent<Stats>();
         movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
-        statsComponent = playerView.gameObject.GetComponent<Stats>();
-        movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
-        
     }
 
     private void Update()
@@ -61,25 +54,13 @@ public class BARManager : MonoBehaviourPun
             {
                 minimap.Toggle();
             }
-            
+
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             {
-
-                statePause = !statePause;
-                pausePanel.SetActive(statePause);
-                movementComponent.pauseIsNotPressed = !movementComponent.pauseIsNotPressed;
+                pauseClickButton();
             }
 
-            if (statePause)
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            
 
             UpdateBars();
 
@@ -88,14 +69,32 @@ public class BARManager : MonoBehaviourPun
             else
                 cursorCrosshair.SetActive(false);
         }
-    }    
+    }
+
+    public void pauseClickButton()
+    {
+        statePause = !statePause;
+        pausePanel.SetActive(statePause);
+        movementComponent.pauseIsNotPressed = !movementComponent.pauseIsNotPressed;
+
+        if (statePause)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
 
     private void UpdateBars()
     {
         UpdateHealthBar();
         UpdateStaminaBar();
     }
-    
+
     private void UpdateHealthBar()
     {
         if (healthBar != null)
@@ -113,31 +112,18 @@ public class BARManager : MonoBehaviourPun
         }
     }
 
-    /*
+
     private void Die()
     {
-        if (isDead) return;
-        isDead = true;
-        health = 0;
-
         if (photonView.IsMine)
         {
-            PhotonNetwork.Destroy(photonView.gameObject); // Destroy player object
-
-            if (deathUI != null)
-                deathUI.SetActive(true);
-
-            // StartCoroutine(WaitBeforeSceneChange(5f));
+            deathUI.SetActive(true);
         }
     }
-    */
 
-    /*
-    private IEnumerator WaitBeforeSceneChange(float delay)
+    public void BackToHome()
     {
-        yield return new WaitForSeconds(delay); // Wait for the delay time
-        PhotonNetwork.LoadLevel("MenuStart"); // Sync scene transition
+        SceneManager.LoadScene("MenuStart");
     }
-    */
 
 }

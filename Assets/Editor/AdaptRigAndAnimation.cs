@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -112,7 +111,7 @@ public class AnimationRiggingTool : EditorWindow
             GUILayout.Space(10);
 
             // Lista de animaciones
-            GUILayout.Label("📂 Seleccionar Animación", centeredLabelStyle);
+            GUILayout.Label("📂 Select Animation", centeredLabelStyle);
             scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Height(200));
             if (animationPaths != null)
             {
@@ -182,7 +181,7 @@ public class AnimationRiggingTool : EditorWindow
 
         if (importer == null)
         {
-            errorMessage = "❌ No se pudo cargar el importador de modelo.";
+            errorMessage = "❌ There was an error while importing the model.";
             Debug.LogError(errorMessage);
             return;
         }
@@ -192,14 +191,14 @@ public class AnimationRiggingTool : EditorWindow
         {
             importer.animationType = ModelImporterAnimationType.Human;
             importer.SaveAndReimport();
-            Debug.Log("✅ Se cambió el tipo de animación a Humanoide.");
+            Debug.Log("✅ Change type of animation to Humanoid.");
         }
 
         // ✅ Intentar cargar el modelo
         GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(path);
         if (model == null)
         {
-            errorMessage = "❌ No se pudo cargar el modelo en la jerarquía.";
+            errorMessage = "❌ Error loading the model from the jerarquie.";
             Debug.LogError(errorMessage);
             return;
         }
@@ -208,7 +207,7 @@ public class AnimationRiggingTool : EditorWindow
         Animator animator = model.GetComponent<Animator>();
         if (animator == null)
         {
-            errorMessage = "❌ No se encontró un Animator en el modelo.";
+            errorMessage = "❌ Error loading Animator of the model.";
             Debug.LogError(errorMessage);
             return;
         }
@@ -217,7 +216,7 @@ public class AnimationRiggingTool : EditorWindow
         Avatar avatar = animator.avatar;
         if (avatar == null)
         {
-            errorMessage = "❌ No se encontró el Avatar en el modelo.";
+            errorMessage = "❌ Error loading Avatar of the model.";
             Debug.LogError(errorMessage);
             return;
         }
@@ -227,7 +226,7 @@ public class AnimationRiggingTool : EditorWindow
         HumanDescription humanDesc = importer.humanDescription;
         if (humanDesc.human == null || humanDesc.human.Length == 0)
         {
-            errorMessage = "❌ No se pudo obtener la descripción del esqueleto.";
+            errorMessage = "❌ Error loading the description of the esqueleton.";
             Debug.LogError(errorMessage);
             return;
         }
@@ -237,7 +236,7 @@ public class AnimationRiggingTool : EditorWindow
         {
             if (!BoneExistsInModel(path, hueso))
             {
-                errorMessage = $"❌ No se pudo encontrar el hueso {hueso} del esqueleto.";
+                errorMessage = $"❌ The bone: {hueso} was not found in the esqueleton.";
                 Debug.LogError(errorMessage);
                 return;
             }
@@ -274,7 +273,7 @@ public class AnimationRiggingTool : EditorWindow
         importer.humanDescription = humanDesc;
         importer.SaveAndReimport();
 
-        Debug.Log("✅ Rigging adaptado correctamente para " + path);
+        Debug.Log("✅ Rigging adapted correctly for " + path);
         errorMessage = "";
     }
 
@@ -283,7 +282,7 @@ public class AnimationRiggingTool : EditorWindow
         GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(modelPath);
         if (model == null)
         {
-            Debug.LogError("Modelo no encontrado: " + modelPath);
+            Debug.LogError("Model not found: " + modelPath);
             return false;
         }
 
@@ -302,7 +301,7 @@ public class AnimationRiggingTool : EditorWindow
             if (humanBones[i].humanName == boneName)
             {
                 humanBones.RemoveAt(i);
-                Debug.Log($"✅ Hueso '{boneName}' eliminado del HumanDescription.");
+                Debug.Log($"✅ Bone '{boneName}' eliminated from HumanDescription.");
             }
         }
 
@@ -320,7 +319,7 @@ public class AnimationRiggingTool : EditorWindow
 
         if (importer == null)
         {
-            errorMessage = "❌ No se pudo cargar el importador de modelo.";
+            errorMessage = "❌ There was an error while importing the model.";
             Debug.LogError(errorMessage);
             return;
         }
@@ -343,7 +342,7 @@ public class AnimationRiggingTool : EditorWindow
             ModelImporterClipAnimation[] defaultClips = importer.defaultClipAnimations;
             if (defaultClips == null || defaultClips.Length == 0)
             {
-                errorMessage = "❌ No se encontraron clips de animación.";
+                errorMessage = "❌ No clips were found in thr animation.";
                 Debug.LogError(errorMessage);
                 return;
             }
@@ -353,7 +352,7 @@ public class AnimationRiggingTool : EditorWindow
 
         foreach (ModelImporterClipAnimation clip in clips)
         {
-            Debug.Log($"Modificando clip: {clip.name}");
+            Debug.Log($"Modifying clip: {clip.name}");
             clip.loopTime = true;
             clip.lockRootRotation = true;
             clip.lockRootHeightY = true;
@@ -362,57 +361,14 @@ public class AnimationRiggingTool : EditorWindow
         
         importer.clipAnimations = clips;
 
-        // 3. Asignar los clips modificados usando SerializedObject
-        // SerializedObject serializedImporter = new SerializedObject(importer);
-        // SerializedProperty clipsProp = serializedImporter.FindProperty("m_ClipAnimations");
-        //
-        // // clipsProp.ClearArray();
-        // for (int i = 0; i < clips.Length; i++)
-        // {
-        //     SerializedProperty newClip = clipsProp.GetArrayElementAtIndex(i);
-        //     
-        //    SerializedProperty loopTime = newClip.FindPropertyRelative("loopTime");
-        //    // SerializedProperty lockRootRotation = newClip.FindPropertyRelative("lockRootRotation");
-        //    // SerializedProperty lockRootHeightY = newClip.FindPropertyRelative("lockRootHeightY");
-        //    // SerializedProperty lockRootPositionXZ = newClip.FindPropertyRelative("lockRootPositionXZ");
-        //
-        //    loopTime.boolValue = true;
-        //    // lockRootRotation.boolValue = true;
-        //    // lockRootHeightY.boolValue = true;
-        //    // lockRootPositionXZ.boolValue = true;
-        //
-        //    // clipsProp.InsertArrayElementAtIndex(i);
-        //    // Repetir para otras propiedades...
-        // }
-
-        // 4. Aplicar cambios
-        // serializedImporter.ApplyModifiedProperties();
         
         importer.SaveAndReimport();
         AssetDatabase.Refresh();
 
-        Debug.Log("✅ Animaciones adaptadas correctamente!");
+        Debug.Log("✅ Animations adapted correctly!");
         errorMessage = "";
     }    
-
-
-
-
-
-
-
-
-
-
-
-
-    private void ShowHumanDescription(HumanDescription humanDesc)
-    {
-        foreach (var bone in humanDesc.human)
-        {
-            Debug.Log($"Hueso: '{bone.humanName}' -> '{bone.boneName}'");
-        }
-    }
+    
     private void AddOrModifyBone(ref List<HumanBone> humanBones, string humanName, string boneName)
     {
         // Buscar si el hueso humanoide ya existe
@@ -425,7 +381,7 @@ public class AnimationRiggingTool : EditorWindow
             HumanBone bone = humanBones[index];
             bone.boneName = boneName;
             humanBones[index] = bone;
-            Debug.Log($"✅ Modificado: {humanName} -> {boneName}");
+            Debug.Log($"✅ Modified: {humanName} -> {boneName}");
         }
         else
         {
@@ -438,6 +394,7 @@ public class AnimationRiggingTool : EditorWindow
                 limit = new HumanLimit { useDefaultValues = true }
             };
             humanBones.Add(newBone);
-            Debug.Log($"➕ Nuevo hueso agregado: {humanName} -> {boneName}");
+            Debug.Log($"➕ New bone added: {humanName} -> {boneName}");
         }
-    }}
+    }
+}
