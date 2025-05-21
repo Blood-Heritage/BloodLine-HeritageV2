@@ -31,7 +31,7 @@ public class BARManager : MonoBehaviourPun
     private bool statePause = false;
     
     
-    private bool isDead = false;
+    private bool isDead => health <= 0;
     private PhotonView photonView;
 
     private void Awake()
@@ -47,18 +47,20 @@ public class BARManager : MonoBehaviourPun
         photonView = playerView;
         statsComponent = playerView.gameObject.GetComponent<Stats>();
         movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
-        statsComponent = playerView.gameObject.GetComponent<Stats>();
-        movementComponent = playerView.gameObject.GetComponent<MovementReborn>();
-        
     }
 
     private void Update()
     {
         if (photonView.IsMine)
         {
+            if (health <= 0)
+            {
+                deathUI.SetActive(true);
+                return;
+            }
+            
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             {
-
                 statePause = !statePause;
                 pausePanel.SetActive(statePause);
                 movementComponent.pauseIsNotPressed = !movementComponent.pauseIsNotPressed;
@@ -107,31 +109,25 @@ public class BARManager : MonoBehaviourPun
         }
     }
 
-    /*
+    
     private void Die()
     {
-        if (isDead) return;
-        isDead = true;
-        health = 0;
-
         if (photonView.IsMine)
         {
-            PhotonNetwork.Destroy(photonView.gameObject); // Destroy player object
-
             if (deathUI != null)
                 deathUI.SetActive(true);
 
-            // StartCoroutine(WaitBeforeSceneChange(5f));
+            StartCoroutine(WaitBeforeSceneChange(5f));
         }
     }
-    */
+    
 
-    /*
+    
     private IEnumerator WaitBeforeSceneChange(float delay)
     {
         yield return new WaitForSeconds(delay); // Wait for the delay time
         PhotonNetwork.LoadLevel("MenuStart"); // Sync scene transition
     }
-    */
+    
 
 }

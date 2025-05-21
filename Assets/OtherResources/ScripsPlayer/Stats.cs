@@ -1,14 +1,19 @@
+using System;
 using UnityEngine;
 using Photon.Pun;
 using System.Collections;
+using OtherResources.Interfaces;
+using Unity.VisualScripting;
 using UnityEngine.Serialization;
 
-public class Stats : MonoBehaviourPun
+public class Stats : MonoBehaviourPun, IHealth
 {
     [Header("Health")]
-    public float maxHealth = 100f;
-    public float health = 100f;
-    
+    [SerializeField] private float _maxHealth = 100f;
+    [SerializeField] private float _health = 100f;
+    public float maxHealth => _maxHealth;
+    public float health => _health;
+
     [Header("Stamina")]
     public float maxStamina = 100f;
     public float stamina;
@@ -18,6 +23,7 @@ public class Stats : MonoBehaviourPun
     public float staminaCooldown = 3f;    // Time before player can run again when stamina is 0
     public bool CanRun => !isExhausted;
     private bool isExhausted = false;
+    private Func<bool> isOnline;
     
     private MovementReborn movement;
     
@@ -25,31 +31,65 @@ public class Stats : MonoBehaviourPun
     {
         movement = GetComponent<MovementReborn>();
     }
+
     
     private void Start()
     {
-        if (photonView.IsMine && BARManager.Instance != null)
+        if (movement.IsOnline())
         {
-            BARManager.Instance.AssignPlayer(photonView);
-            stamina = maxStamina;
+            if (photonView.IsMine && BARManager.Instance != null)
+            {
+                BARManager.Instance.AssignPlayer(photonView);
+                stamina = maxStamina;
+            }
         }
     }
 
     [PunRPC]
     public void TakeDamage(int damage)
     {
-        health -= damage;
-        health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
+        Debug.Log($"Received damage, now: {health}");
+        _health -= damage;
+        _health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
+        Debug.Log($"after: {health}");
+    }
+    
+    
+    public void LocalTakeDamage(int damage)
+    {
+        Debug.Log($"Received damage, now: {health}");
+        _health -= damage;
+        _health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
+        Debug.Log($"after: {health}");
     }
     
     private void Update()
     {
-        if (!photonView.IsMine) return;
+        if (movement.IsOnline())
+            if (!photonView.IsMine) return;
         
         if (!isExhausted && movement.isRunningPressed && !movement.isShootingPressed && !movement.GoingBackwards) // && currentStamina > staminaThreshold)
             DrainStamina();
         else
             RegenerateStamina();
+    }
+    
+    public IEnumerator Die()
+    { 
+        movement.animator.SetBool("isDead", true);
+        
+        // wait three seconds to delete enemy
+        yield return new WaitForSeconds(3f);
+        
+        // what to do
+        if (movement.IsOnline())
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);   
+        }
     }
 
     public void DrainStamina()

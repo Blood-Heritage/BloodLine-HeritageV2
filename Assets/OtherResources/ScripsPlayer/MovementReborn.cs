@@ -38,6 +38,7 @@ public class MovementReborn : MonoBehaviourPun
     
     CharacterController cc;
     public Animator animator;
+    private bool isDead => _stats.health <= 0;
     
     
     int isShootingHash;
@@ -271,6 +272,18 @@ public class MovementReborn : MonoBehaviourPun
             ZeroAnimation();
             return;
         }
+        else if (isDead)
+        {
+            ZeroAnimation();
+            StartCoroutine(_stats.Die());
+            
+            if (IsOnline())
+                PhotonNetwork.Destroy(gameObject); // Destroy player object
+            else 
+                Destroy(gameObject);
+        }
+        
+        
         
         Animation();
         UpdateCameras();
