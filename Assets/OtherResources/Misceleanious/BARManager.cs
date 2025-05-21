@@ -6,13 +6,8 @@ using System.Collections;
 public class BARManager : MonoBehaviourPun
 {
     // NE PAS TOUCHER PLEASE, trop tard (Ethan)
-    // NE PAS TOUCHER PLEASE, trop tard (Ethan)
     
     public static BARManager Instance;
-
-    // [Header("Health Settings")]
-    // public float health = 100;
-    // public float maxHealth = 100;
     
     public Stats statsComponent;
     public MovementReborn movementComponent;
@@ -27,7 +22,7 @@ public class BARManager : MonoBehaviourPun
     public GameObject deathUI; // Assign in Inspector
     public GameObject cursorCrosshair;
 
-    [SerializeField] private GameObject pausePanel;
+    [SerializeField] public GameObject pausePanel;
     private bool statePause = false;
     
     
@@ -114,20 +109,7 @@ public class BARManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            if (deathUI != null)
-                deathUI.SetActive(true);
-
-            StartCoroutine(WaitBeforeSceneChange(5f));
+            deathUI.SetActive(true);
         }
     }
-    
-
-    
-    private IEnumerator WaitBeforeSceneChange(float delay)
-    {
-        yield return new WaitForSeconds(delay); // Wait for the delay time
-        PhotonNetwork.LoadLevel("MenuStart"); // Sync scene transition
-    }
-    
-
 }

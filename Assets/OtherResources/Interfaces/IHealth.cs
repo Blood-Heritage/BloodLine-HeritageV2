@@ -1,10 +1,10 @@
 namespace OtherResources.Interfaces
 {
-    public interface IHealth
+    public abstract class IHealth : DestroyNetwork
     {
         public float health { get; }
         public float maxHealth { get; }
         
-        public void TakeDamage(int damage);
+        public abstract void TakeDamage(int damage);
     }
 }

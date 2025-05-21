@@ -6,7 +6,7 @@ using Photon.Pun;
 using UnityEngine;
 using static OtherResources.Constants;
 
-public class BulletProjectile : MonoBehaviour
+public class BulletProjectile : DestroyNetwork
 {
     public float bulletSpeed;
     public int damage;
@@ -23,11 +23,6 @@ public class BulletProjectile : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
-    public bool IsOnline()
-    {
-        return PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
-    }
-
     private void Start()
     {
         bulletRigidBody.velocity = transform.forward * bulletSpeed;
@@ -35,34 +30,23 @@ public class BulletProjectile : MonoBehaviour
 
     private void Update()
     {
-        if (IsOnline())
+        timer += Time.deltaTime;
+        if (timer >= maxLife)
         {
-            if (photonView.IsMine)
-            {
-                timer += Time.deltaTime;
-                if (timer >= maxLife)
-                {
-                    PhotonNetwork.Destroy(gameObject);
-                }
-            }
-        }
-        else
-        {
-            timer += Time.deltaTime;
-            if (timer >= maxLife)
-            {
-                Destroy(gameObject);
-            }
+            DestroyOnNetwork();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // not enable the bullet to move anymore
+        bulletSpeed = 0f;
+        
+        DestroyOnNetwork();
+        
         if (IsOnline())
         {
             if (!photonView.IsMine) return;
-            PhotonNetwork.Destroy(gameObject);
-            
             Instantiate(impactPrefab, transform.position, Quaternion.identity);
                 
             // if the other object has the tag player
@@ -83,8 +67,6 @@ public class BulletProjectile : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
-
             if (other.gameObject.layer == VULNERABLE_LAYER)
             {
                 IHealth health = other.gameObject.GetComponent<IHealth>();

@@ -1621,7 +1621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9019608}
+  m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0.5529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1767,10 +1767,7 @@ MonoBehaviour:
   countdownText: {fileID: 1440290382131042226}
   deathScreenUI: {fileID: 6080926492998035574}
   sceneToLoad: MenuStart
-  countdownTime: 10
-  HealthBar: {fileID: 8053701942269743367}
-  StaminaBar: {fileID: 3336018566648313144}
-  PAUSEPANEL: {fileID: 0}
+  countdownTime: 5
 --- !u!1 &6323928745050779916
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,7 +2053,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GAME LOST
+  m_text: GAME OVER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

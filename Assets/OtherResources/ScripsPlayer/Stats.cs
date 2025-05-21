@@ -6,7 +6,7 @@ using OtherResources.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine.Serialization;
 
-public class Stats : MonoBehaviourPun, IHealth
+public class Stats : IHealth
 {
     [Header("Health")]
     [SerializeField] private float _maxHealth = 100f;
@@ -46,7 +46,7 @@ public class Stats : MonoBehaviourPun, IHealth
     }
 
     [PunRPC]
-    public void TakeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         Debug.Log($"Received damage, now: {health}");
         _health -= damage;
@@ -77,19 +77,14 @@ public class Stats : MonoBehaviourPun, IHealth
     public IEnumerator Die()
     { 
         movement.animator.SetBool("isDead", true);
+        Debug.LogError("Is dead, waiting 3 seconds");
         
-        // wait three seconds to delete enemy
-        yield return new WaitForSeconds(3f);
-        
-        // what to do
-        if (movement.IsOnline())
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);   
-        }
+        // wait three seconds to delete gameobject
+        yield return new WaitForSeconds(3.5f);
+        Debug.LogError("waited");
+     
+        // look into DestroyNetwork
+        DestroyOnNetwork();
     }
 
     public void DrainStamina()

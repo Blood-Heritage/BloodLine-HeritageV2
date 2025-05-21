@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Serialization;
 
-public class MovementReborn : MonoBehaviourPun
+public class MovementReborn : DestroyNetwork
 {
     private float speed;
     public float moveSpeed;
@@ -39,9 +39,11 @@ public class MovementReborn : MonoBehaviourPun
     CharacterController cc;
     public Animator animator;
     private bool isDead => _stats.health <= 0;
+    private bool alreadyDead = false;
+    public bool GoingBackwards => currentMovement.z < 0.0f;
     
     
-    int isShootingHash;
+    int isShootingHash; 
     int isJumpingHash;
     int velocityXHash;
     int velocityZHash;
@@ -51,6 +53,7 @@ public class MovementReborn : MonoBehaviourPun
 
     private float Velocity_X = 0.0f;
     private float Velocity_Z = 0.0f;
+    
 
     [Header("Rigging")]
     [SerializeField] private Rig aimRig;
@@ -84,21 +87,7 @@ public class MovementReborn : MonoBehaviourPun
             else return aimCam.VirtualCameraGameObject;
         }
     }
-
-
-    public bool GoingBackwards
-    {
-        get
-        {
-            return currentMovement.z < 0.0f;
-        }
-    }
     
-    public bool IsOnline()
-    {
-        return PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
-    }
-
     public void SetCameras(ICinemachineCamera freelook, ICinemachineCamera aim, Transform _activeCam)
     {
         normal = freelook;
@@ -266,6 +255,8 @@ public class MovementReborn : MonoBehaviourPun
 
     private void Update()
     {
+        if (alreadyDead) return;
+        
         if (!photonView.IsMine) return; // Ignore les mouvements des autres joueurs
         if (!pauseIsNotPressed)
         {
@@ -276,11 +267,7 @@ public class MovementReborn : MonoBehaviourPun
         {
             ZeroAnimation();
             StartCoroutine(_stats.Die());
-            
-            if (IsOnline())
-                PhotonNetwork.Destroy(gameObject); // Destroy player object
-            else 
-                Destroy(gameObject);
+            alreadyDead = true;
         }
         
         
@@ -440,6 +427,7 @@ public class MovementReborn : MonoBehaviourPun
         animator.SetBool(isShootingHash, false);
         animator.SetFloat(velocityXHash, 0.0f);
         animator.SetFloat(velocityZHash, 0.0f);
+        aimRigWeight = 0f;
     }
 
     void Animation()
