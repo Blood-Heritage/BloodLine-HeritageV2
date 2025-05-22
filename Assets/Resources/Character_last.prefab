@@ -1307,6 +1307,7 @@ MonoBehaviour:
   CanvasPlayer: {fileID: 5808833137178742033}
   minimapIcon: {fileID: 2189060082143805741, guid: eb23e8bfda218bc289a927407d769802,
     type: 3}
+  Image: {fileID: 0}
 --- !u!1 &131922
 GameObject:
   m_ObjectHideFlags: 0
@@ -3442,8 +3443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6125b988f0be0fbd3b8f1d51e96eb9fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
-  enemyNav: {fileID: 0}
 --- !u!1 &6371796607826273887
 GameObject:
   m_ObjectHideFlags: 0
