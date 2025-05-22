@@ -63,11 +63,18 @@ public class Stats : IHealth
         Debug.Log($"after: {health}");
     }
     
+    [PunRPC]
+    public void FULL_REGENERATE()
+    {
+        health = maxHealth;
+        stamina = maxStamina;
+        health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
+    }
+    
     private void Update()
     {
-        if (movement.IsOnline())
-            if (!photonView.IsMine) return;
-        
+        if (!photonView.IsMine) return;
+
         if (!isExhausted && movement.isRunningPressed && !movement.isShootingPressed && !movement.GoingBackwards) // && currentStamina > staminaThreshold)
             DrainStamina();
         else
