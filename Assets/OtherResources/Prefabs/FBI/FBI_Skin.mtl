@@ -1,8 +1,0 @@
-newmtl PolygonCity_Mat_01_A
-map_Pm PolygonCity_Texture_Metallic.tga
-bump PolygonCity_Texture_Normal.png
-map_Ke Emissive_01.png
-map_Kd PolygonCity_Texture_01_A.png
-Kd 1 1 1
-d 1
-
