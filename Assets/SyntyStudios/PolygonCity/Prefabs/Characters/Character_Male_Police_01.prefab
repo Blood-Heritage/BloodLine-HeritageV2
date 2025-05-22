@@ -2815,6 +2815,8 @@ Transform:
   - {fileID: 1671419720492234150}
   - {fileID: 473440}
   - {fileID: 3787222723925072359}
+  - {fileID: 2617265990430178575}
+  - {fileID: 8709603018478795123}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &9582704
@@ -2930,7 +2932,7 @@ Transform:
   m_GameObject: {fileID: 270985311878919989}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.869}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -60653,12 +60655,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629262303590312460}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3787222723925072359}
+  m_Father: {fileID: 441500}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &9197318618563195670
 SkinnedMeshRenderer:
@@ -70197,7 +70199,7 @@ Transform:
   - {fileID: 1189014711491756047}
   - {fileID: 4781459489699827276}
   - {fileID: 8986440594839784160}
-  m_Father: {fileID: 3787222723925072359}
+  m_Father: {fileID: 441500}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4425416124365150073
 GameObject:
@@ -70245,7 +70247,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3787222723925072359
 Transform:
   m_ObjectHideFlags: 0
@@ -70258,9 +70260,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2617265990430178575}
-  - {fileID: 8709603018478795123}
+  m_Children: []
   m_Father: {fileID: 441500}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5086369546562057887
