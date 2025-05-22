@@ -32,10 +32,6 @@ public class HealingZone : MonoBehaviour
                 UI.SetActive(false);
                 isChoosing = false;
             }
-            else if (Input.GetKeyDown(KeyCode.N))
-            {
-                CloseUI();
-            }
         }
     }
 
@@ -48,7 +44,7 @@ public class HealingZone : MonoBehaviour
         {
             playerStats = stats;
             uiPanel.SetActive(true);
-            messageText.text = "Voulez-vous être soigné ? (Y/N)";
+            messageText.text = "Voulez-vous être soigné ? (Y pour continuer)";
             isChoosing = true;
         }
     }
