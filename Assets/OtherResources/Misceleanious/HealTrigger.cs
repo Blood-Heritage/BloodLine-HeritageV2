@@ -17,7 +17,6 @@ public class HealingZone : MonoBehaviour
 
     private void Start()
     {
-        UI.SetActive(false);
         uiPanel.SetActive(false);
         hospitalImage.gameObject.SetActive(false);
         loadingBar.gameObject.SetActive(false);
@@ -30,6 +29,7 @@ public class HealingZone : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 StartCoroutine(HealPlayer());
+                UI.SetActive(false);
                 isChoosing = false;
             }
             else if (Input.GetKeyDown(KeyCode.N))
@@ -82,7 +82,6 @@ public class HealingZone : MonoBehaviour
             yield return null;
         }
 
-        // Appel de l'healing via RPC
         playerStats.photonView.RPC("FULL_REGENERATE", RpcTarget.AllBuffered);
 
         // Message de confirmation
@@ -93,6 +92,7 @@ public class HealingZone : MonoBehaviour
 
     private void CloseUI()
     {
+        Debug.Log("UI fermée");
         uiPanel.SetActive(false);
         hospitalImage.gameObject.SetActive(false);
         loadingBar.gameObject.SetActive(false);
