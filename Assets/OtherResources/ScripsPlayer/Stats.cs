@@ -42,10 +42,18 @@ public class Stats : MonoBehaviourPun
         health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
     }
     
+    [PunRPC]
+    public void FULL_REGENERATE()
+    {
+        health = maxHealth;
+        stamina = maxStamina;
+        health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
+    }
+    
     private void Update()
     {
         if (!photonView.IsMine) return;
-        
+
         if (!isExhausted && movement.isRunningPressed && !movement.isShootingPressed && !movement.GoingBackwards) // && currentStamina > staminaThreshold)
             DrainStamina();
         else
