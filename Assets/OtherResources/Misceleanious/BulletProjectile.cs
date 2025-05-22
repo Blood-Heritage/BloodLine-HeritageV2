@@ -39,6 +39,8 @@ public class BulletProjectile : DestroyNetwork
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == IGNORE) return;
+        
         // not enable the bullet to move anymore
         bulletSpeed = 0f;
         
@@ -50,7 +52,7 @@ public class BulletProjectile : DestroyNetwork
             Instantiate(impactPrefab, transform.position, Quaternion.identity);
                 
             // if the other object has the tag player
-            if (other.gameObject.layer == VULNERABLE_LAYER)
+            if (other.gameObject.layer == ENEMY_LAYER || other.gameObject.layer == PLAYER_LAYER)
             {
                 // asumme that it has a Health Component
                     
@@ -67,7 +69,7 @@ public class BulletProjectile : DestroyNetwork
         }
         else
         {
-            if (other.gameObject.layer == VULNERABLE_LAYER)
+            if (other.gameObject.layer == ENEMY_LAYER || other.gameObject.layer == PLAYER_LAYER)
             {
                 IHealth health = other.gameObject.GetComponent<IHealth>();
                 if (health == null)
