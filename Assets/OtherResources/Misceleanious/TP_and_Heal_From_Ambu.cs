@@ -37,7 +37,7 @@ public class TP_andHeal_From_Ambu : MonoBehaviour
         if (player != null && player.photonView.IsMine)
         {
             localPlayer = player;
-            ShowText("Voulez-vous être téléporté à l'hôpital ? (Y pour confirmer)");
+            ShowText("Voulez-vous être téléporté à l'hôpital?\n(Y pour confirmer)");
         }
     }
 

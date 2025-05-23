@@ -23,6 +23,8 @@ public class BARManager : MonoBehaviourPun
     public Image staminaBar; // UI element for the stamina bar
     public GameObject deathUI; // Assign in Inspector
     public GameObject cursorCrosshair;
+    public GameObject TexteQuests;
+    public bool ShowQuest = true;
 
     [SerializeField] public GameObject pausePanel;
     [SerializeField] public Minimap minimap;
@@ -50,17 +52,24 @@ public class BARManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.Period))
             {
                 minimap.Toggle();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (!statePause)
+                {
+                    ShowQuest = !ShowQuest;
+                    TexteQuests.SetActive(ShowQuest);
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             {
                 pauseClickButton();
             }
-
-            
 
             UpdateBars();
 
@@ -80,6 +89,7 @@ public class BARManager : MonoBehaviourPun
         if (statePause)
         {
             minimap.gameObject.SetActive(false);
+            TexteQuests.SetActive(false);   
             
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -87,6 +97,7 @@ public class BARManager : MonoBehaviourPun
         else
         {
             minimap.gameObject.SetActive(true);
+            TexteQuests.SetActive(ShowQuest);
             
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;

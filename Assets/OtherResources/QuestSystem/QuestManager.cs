@@ -75,8 +75,8 @@ public class QuestManager : MonoBehaviour
 
 		
 		
-		Debug.Log(ColliderQuest2ScriptCon == null);
-		Debug.Log("QuestManager Started");
+		// Debug.Log(ColliderQuest2ScriptCon == null);
+		// Debug.Log("QuestManager Started");
 		//Quest quest3 = new Quest(2, 1, "C’est un piège ! Vite, élimine la cible !", 10, GameplayEnum.Quote);
 		//quest = quest3;
         
@@ -125,7 +125,7 @@ public class QuestManager : MonoBehaviour
     {
 	    if (!GameFinished)
 	    {
-		    Debug.Log(ColliderQuest2ScriptCon.IsTriggered);
+		    // Debug.Log(ColliderQuest2ScriptCon.IsTriggered);
 		    if (CurrentQuest.Id == 2 && ColliderQuest2ScriptCon.IsTriggered) 
 		    {
 			    CurrentQuest.isFinished = true;
@@ -169,7 +169,7 @@ public class QuestManager : MonoBehaviour
 			    NextQuest();
 		    if (Input.inputString == "m")
 		    {
-			    Debug.Log("Touche M pressée ! Passage à la quête suivante.");
+			    // Debug.Log("Touche M pressée ! Passage à la quête suivante.");
 			    CurrentQuest.isFinished = true;
 		    }
 		    else if (Input.inputString == "n" && CurrentQuest.Type == GameplayEnum.Quote)
@@ -184,7 +184,7 @@ public class QuestManager : MonoBehaviour
 		// [L] Réinitialiser les Missions (Peut être fait après la fin du jeu, contrairement à [M])
 		if (Input.inputString == "l")
        	{
-            Debug.Log("Touche L pressée ! Réinitialisation des missions et quêtes.");
+	        // Debug.Log("Touche L pressée ! Réinitialisation des missions et quêtes.");
             CurrentQuest.EndQuest();
 			QuestRegistry.Instance.Reset();
 			Start();	

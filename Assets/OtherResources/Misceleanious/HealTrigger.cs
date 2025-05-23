@@ -44,7 +44,7 @@ public class HealingZone : MonoBehaviour
         {
             playerStats = stats;
             uiPanel.SetActive(true);
-            messageText.text = "Voulez-vous être soigné ? (Y pour continuer)";
+            messageText.text = "Voulez-vous être soigné?\n(Y pour continuer)";
             isChoosing = true;
         }
     }
