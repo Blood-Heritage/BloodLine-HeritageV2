@@ -24,7 +24,7 @@ public class OrganizeObjectsEditor : EditorWindow
         GUILayout.Label("Navigate GameObjects", EditorStyles.boldLabel);
 
         Transform[] children = GetCurrentChildren();
-        int count = Mathf.Min(10, children.Length);
+        int count = Mathf.Min(20, children.Length);
         for (int i = 0; i < count; i++)
         {
             Transform child = children[i];
