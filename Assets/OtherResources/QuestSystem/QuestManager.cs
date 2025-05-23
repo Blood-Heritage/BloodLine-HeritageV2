@@ -149,6 +149,8 @@ public class QuestManager : MonoBehaviour
 			    CurrentQuest.isFinished = true;
 		    }
 
+			Debug.Log($"On est dans la zone ? {ColliderQuest23ScriptCon.IsTriggered}");
+
 		    if (CurrentQuest.Id == 23 && ColliderQuest23ScriptCon.IsTriggered)
 		    {
 			    CurrentQuest.isFinished = true;	
