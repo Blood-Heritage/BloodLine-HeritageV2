@@ -24,9 +24,9 @@ TagManager:
   - 
   - 
   - 
-  - 
   - Player
   - Enemies
+  - 
   - Minimap Assets
   - 
   - 
@@ -36,8 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - IgnorerBalle
+  - Ignore
   m_SortingLayers:
   - name: Default
     uniqueID: 0
