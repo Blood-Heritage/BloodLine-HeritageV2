@@ -744,7 +744,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1234214587019154548}
   - {fileID: -8807744986420919578}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1234214587019154548
@@ -2667,7 +2667,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 85
+  m_VersionIndex: 88
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
