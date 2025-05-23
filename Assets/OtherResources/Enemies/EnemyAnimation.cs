@@ -1,13 +1,88 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.AI;
 
 public class EnemyAnimation : MonoBehaviourPun
 {
-    // Update is called once per frame
+    private EnemyAI _enemyAI;
+    private Animator animator;
+    private NavMeshAgent agent;
+    private bool isAttacking => _enemyAI.isAtacking;
+    
+    int isShootingHash; 
+    int velocityZHash;
+
+    int TorsoLayer;
+    int ShootingLayer;
+
+    private float velocity
+    {
+        get
+        {
+            if (_enemyAI.blockedByPlayer) return 0f;
+            return NormalizeCustom(_enemyAI.Velocity_Z);
+        }
+    }
+
+    float Remap(float value, float inMin, float inMax, float outMin, float outMax)
+    {
+        return Mathf.Lerp(outMin, outMax, Mathf.InverseLerp(inMin, inMax, value));
+    }
+    
+    float NormalizeCustom(float value)
+    {
+        return Remap(value, 2f, 5f, 0.45f, 2.0f);
+    }
+    
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        _enemyAI = GetComponent<EnemyAI>();
+        animator = GetComponent<Animator>();
+        
+        velocityZHash = Animator.StringToHash("Velocity Z");
+        isShootingHash = Animator.StringToHash("isShooting");
+        
+        TorsoLayer = animator.GetLayerIndex("Torso");
+        ShootingLayer = animator.GetLayerIndex("Aim");
+    }
+
     void Update()
     {
         if (!photonView.IsMine) return;
+        Animate();
+    }
+
+    void Animate()
+    {
+        bool isShooting = animator.GetBool(isShootingHash);
+        
+        if (isAttacking) animator.SetLayerWeight(TorsoLayer, 0.5f);
+        else animator.SetLayerWeight(TorsoLayer, 0.0f);
+        
+        if (isAttacking)
+            animator.SetLayerWeight(ShootingLayer, 1.0f);
+                
+        if (!isAttacking)
+            animator.SetLayerWeight(ShootingLayer, 0.0f);
+                
+                
+        if (_enemyAI.isAtacking && !isShooting)
+        {
+            // animator.SetLayerWeight(ShootingLayer, 1.0f);
+            animator.SetBool(isShootingHash, true);
+        }
+        
+        if (!_enemyAI.isAtacking && isShooting)
+        {
+            // animator.SetLayerWeight(ShootingLayer, 0.0f);
+            animator.SetBool(isShootingHash, false);
+        }
+        
+        animator.SetFloat(velocityZHash, velocity);
+        // animator.SetFloat(velocityZHash, Velocity_Z);
     }
 }
