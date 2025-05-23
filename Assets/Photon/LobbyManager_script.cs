@@ -15,6 +15,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Button soloButton, createButton;
     public GameObject roomListItemPrefab;
 
+    
+
+
     [Header("Loading Video")]
     public GameObject loadingCanvas;
     public GameObject BackgroundCanva;
@@ -22,15 +25,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public VideoClip loopVideo;     // Vidéo boucle (pendant chargement)
     public VideoClip finalVideo;    // Vidéo finale (avant changement de scène)
 
+
+
+
+
+    [Header("Transition")]
+    public GameObject transitionCanvasRoot; // Le GameObject racine qui contient le Canvas + l'image
+    public GameObject transitionImage;
+    private CanvasGroup transitionCanvasGroup;
+
+
     private AsyncOperation asyncLoad;
 
     void Start()
-    {
-        PhotonNetwork.ConnectUsingSettings();
-        print("cliquer sur jouer");
-        soloButton.onClick.AddListener(() => StartCoroutine(LoadGameWithVideo(isSolo: true)));
-        createButton.onClick.AddListener(() => StartCoroutine(LoadGameWithVideo(isSolo: false)));
-    }
+{
+    PhotonNetwork.ConnectUsingSettings();
+    print("cliquer sur jouer");
+
+    soloButton.onClick.AddListener(() => StartCoroutine(LoadGameWithVideo(isSolo: true)));
+    createButton.onClick.AddListener(() => StartCoroutine(LoadGameWithVideo(isSolo: false)));
+
+    transitionCanvasGroup = transitionCanvasRoot.GetComponentInChildren<CanvasGroup>();
+    DontDestroyOnLoad(transitionCanvasRoot); // 👈 ici, sur le Canvas parent
+}
+
 
     public override void OnConnectedToMaster()
     {
@@ -80,8 +98,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void OnFinalVideoFinished(VideoPlayer vp)
     {
+        StartCoroutine(TransitionToGameScene());
+    }
+
+    private IEnumerator TransitionToGameScene()
+    {
+        
+        transitionImage.SetActive(true);
+        transitionCanvasGroup.alpha = 0f;
+
+        // Fondu d'entrée
+        float duration = 1f;
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            transitionCanvasGroup.alpha = t / duration;
+            yield return null;
+        }
+        transitionCanvasGroup.alpha = 1f;
+
+        // Activer la scène
         asyncLoad.allowSceneActivation = true;
     }
+
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
