@@ -871,15 +871,15 @@ MonoBehaviour:
   player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   WhatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524288
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 0
+  walkPointRange: 20
   isAtacking: 0
-  sightRange: 0
-  attackrange: 0
+  sightRange: 35
+  attackrange: 20
   playerInSightRange: 0
   playerInAttackRange: 0
 --- !u!114 &2783840382957118075
@@ -908,8 +908,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b0c5e21cea4fa19ca1cbdb535ab481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanvasPlayer: {fileID: 0}
-  minimapIcon: {fileID: 0}
+  CanvasPlayer: {fileID: 3190929753142924654}
+  minimapIcon: {fileID: 7309590974014062244, guid: fd70aa8a481075779a1ae0a3c33bddbd,
+    type: 3}
 --- !u!1 &3190929753142924654
 GameObject:
   m_ObjectHideFlags: 0

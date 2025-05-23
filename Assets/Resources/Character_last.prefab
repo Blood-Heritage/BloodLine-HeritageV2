@@ -1118,8 +1118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147cf85017682e306b3dc347117a1232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  runningSpeed: 5
+  moveSpeed: 4
+  runningSpeed: 7
   acceleration: 3
   deceleration: 6
   pauseIsNotPressed: 0
@@ -1221,9 +1221,9 @@ MonoBehaviour:
   _maxHealth: 100
   _health: 100
   maxStamina: 100
-  stamina: 0
-  staminaDrainRate: 15
-  staminaRegenRate: 10
+  stamina: 100
+  staminaDrainRate: 6
+  staminaRegenRate: 5
   staminaCooldown: 3
 --- !u!114 &4613635239533241601
 MonoBehaviour:

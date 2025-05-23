@@ -11,14 +11,14 @@ public class Stats : IHealth
     [Header("Health")]
     [SerializeField] private float _maxHealth = 100f;
     [SerializeField] private float _health = 100f;
-    public float maxHealth => _maxHealth;
-    public float health => _health;
+    public new float maxHealth => _maxHealth;
+    public new float health => _health;
 
     [Header("Stamina")]
     public float maxStamina = 100f;
     public float stamina;
-    public float staminaDrainRate = 15f; // Stamina decrease per second while running
-    public float staminaRegenRate = 10f; // Stamina increase per second while not running
+    public float staminaDrainRate = 8f; // Stamina decrease per second while running
+    public float staminaRegenRate = 5f; // Stamina increase per second while not running
     // public float staminaThreshold = 10f; // Minimum stamina required to run
     public float staminaCooldown = 3f;    // Time before player can run again when stamina is 0
     public bool CanRun => !isExhausted;
@@ -48,27 +48,16 @@ public class Stats : IHealth
     [PunRPC]
     public override void TakeDamage(int damage)
     {
-        Debug.Log($"Received damage, now: {health}");
         _health -= damage;
         _health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
-        Debug.Log($"after: {health}");
     }
     
-    
-    public void LocalTakeDamage(int damage)
-    {
-        Debug.Log($"Received damage, now: {health}");
-        _health -= damage;
-        _health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
-        Debug.Log($"after: {health}");
-    }
     
     [PunRPC]
     public void FULL_REGENERATE()
     {
-        health = maxHealth;
+        _health = maxHealth;
         stamina = maxStamina;
-        health = Mathf.Clamp(health, 0, maxHealth); // Prevents negative values
     }
     
     private void Update()
