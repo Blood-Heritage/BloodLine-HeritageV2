@@ -10,6 +10,4 @@ public class EnemyAnimation : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
     }
-    
-    
 }

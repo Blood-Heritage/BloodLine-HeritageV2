@@ -269,6 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimap: {fileID: 5283492156849040433}
   bigmap: {fileID: 6944473675764837737}
+  camera: {fileID: 8680522701341379475}
 --- !u!1 &3425849241760727048
 GameObject:
   m_ObjectHideFlags: 0

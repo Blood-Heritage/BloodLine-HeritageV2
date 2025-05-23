@@ -49,9 +49,11 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
                     followCamera.AssignTarget(player.transform);
                 
                 // hyper chiant
-                Camera CameraMinimap = minimapInstanance.GetComponentInChildren<Camera>();
-                SetupCameraNav CanvasPlayer = player.GetComponentInChildren<SetupCameraNav>();
-                CanvasPlayer.SetupCamera(CameraMinimap);
+                // Camera CameraMinimap = minimapInstanance.GetComponentInChildren<Camera>();
+                // SetupCameraNav CanvasPlayer = player.GetComponentInChildren<SetupCameraNav>();
+                // CanvasPlayer.SetupCamera(CameraMinimap);
+                
+                // j'adore les singleton
             }
         }
     }

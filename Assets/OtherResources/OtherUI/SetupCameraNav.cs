@@ -11,8 +11,8 @@ public class SetupCameraNav : MonoBehaviour
         canvas = GetComponent<Canvas>();
     }
 
-    public void SetupCamera(Camera camera)
+    private void Start()
     {
-        canvas.worldCamera = camera;   
+        canvas.worldCamera = Minimap.Instance.camera;
     }
 }

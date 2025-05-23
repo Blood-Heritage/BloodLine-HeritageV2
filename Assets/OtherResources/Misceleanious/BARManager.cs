@@ -79,11 +79,15 @@ public class BARManager : MonoBehaviourPun
 
         if (statePause)
         {
+            minimap.gameObject.SetActive(false);
+            
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
         else
         {
+            minimap.gameObject.SetActive(true);
+            
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }

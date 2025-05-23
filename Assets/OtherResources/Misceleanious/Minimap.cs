@@ -8,6 +8,7 @@ public class Minimap : MonoBehaviour
     [SerializeField] private GameObject bigmap;
     
     public static Minimap Instance;
+    public Camera camera;
     
     private void Awake()
     {
