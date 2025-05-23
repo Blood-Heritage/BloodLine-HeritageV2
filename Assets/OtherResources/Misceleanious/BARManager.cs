@@ -24,9 +24,9 @@ public class BARManager : MonoBehaviourPun
     public GameObject deathUI; // Assign in Inspector
     public GameObject cursorCrosshair;
 
-    [SerializeField] private GameObject pausePanel;
+    [SerializeField] public GameObject pausePanel;
     [SerializeField] public Minimap minimap;
-    private bool statePause = false;
+    public bool statePause = false;
 
     private bool isDead => health <= 0;
     private PhotonView photonView;
