@@ -19,6 +19,7 @@ namespace QuestSystem {
         public GameplayEnum Type;
         public bool isFinished;
 		TextMeshProUGUI textNextMission = GameObject.Find("NextMission").GetComponent<TextMeshProUGUI>();
+		TextMeshProUGUI textPoserBomber = GameObject.Find("PoserBombe").GetComponent<TextMeshProUGUI>();
     
         public Quest(int mission, string objective, int reward, GameplayEnum type)
         {
@@ -96,6 +97,7 @@ namespace QuestSystem {
              case 17: // -
 	             break;
              case 18: // TODO : Activer le fait de pouvoir placer la bombe
+	             textPoserBomber.text = "Appuyez sur [B] pour poser une bombe";
 	             break;
              case 19: // -
 	             break;
@@ -188,6 +190,7 @@ namespace QuestSystem {
              case 18: // TODO : UI : Faire apparaitre la Bombe posée sur un immeuble
 	             bomb.enabled = false; 
 	             QuestRegistry.Instance.ToyotaBomba.SetActive(true);
+	             textPoserBomber.text = "";
 	             break;
              
              case 19: // TODO : Faire exploser la bombe (après s'être éloigné donc)

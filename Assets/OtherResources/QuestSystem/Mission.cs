@@ -17,7 +17,7 @@ namespace QuestSystem{
                 case 1:
                     // Mission 1
                     Quest quest1 = new Quest( 1, "Bonsoir la nouvelle recrue. Maintenant que tu es l’un des nôtres, tu vas nous aider à éliminer un commanditaire rival important avec qui nous avons rendez-vous pour conclure la vente d’une cargaison. Tu n’as pas besoin d’en savoir plus mais rappelles-toi, cette mission est cruciale, si tu échoues, tu le regretteras. Il faut être courageux pour être un lâche dans la mafia.", 0, GameplayEnum.Quote);
-                    Quest quest2 = new Quest( 1, "Éliminer la cible", 1, GameplayEnum.Order);
+                    Quest quest2 = new Quest( 1, "Éliminer la cible devant la banque", 1, GameplayEnum.Order);
                     Quest quest3 = new Quest( 1, "C’est un piège ! Vite, élimine la cible !", 0, GameplayEnum.Quote);
                     Quest quest4 = new Quest( 1, "Éliminer rapidement la cible !", 1, GameplayEnum.Order);
                     Quest quest5 = new Quest( 1, "Cible éliminée. Abats les agents ennemis, vite !", 0, GameplayEnum.Quote);
@@ -31,15 +31,15 @@ namespace QuestSystem{
                     Quest quest7 = new Quest( 2, "Tu es tombé dans un piège créé de toute pièce par les autorités et les agents fédéraux. Tout le réseau est tombé, mais il y a peut-être encore moyen de se venger. Va dans notre cache d’armes et récupère ce dont tu as besoin", 0, GameplayEnum.Quote);
                     Quest quest8 = new Quest( 2, "Aller dans la cache d'armes", 1, GameplayEnum.Order);
                     Quest quest9 = new Quest( 2, "J’ai entendu parler de cette opération. Quel bain de sang. Tiens, voilà des informations qui pourraient t’être utiles sur les agents qui t’ont tendu un piège.",  0, GameplayEnum.Quote);
-                    Quest quest10 = new Quest( 2, "Éliminez l’agent du FBI à la 501e rue.", 1, GameplayEnum.Order);
+                    Quest quest10 = new Quest( 2, "Éliminez l’agent du FBI dans le parc de la 501e rue.", 1, GameplayEnum.Order);
                     Quest quest11 = new Quest( 2, "Éliminez l’agent du FBI à la 212e rue.", 1, GameplayEnum.Order);
                     Quest quest12 = new Quest( 2, "Éliminez l’agent du FBI à la 141e rue.", 1, GameplayEnum.Order);
                     Quest quest13 = new Quest( 2, "Retourner voir le contact.", 1, GameplayEnum.Order);
                     Quest quest14 = new Quest( 2, "L’officier du FBI responsable de l’opération est actuellement à la bibliothèque, mais il est escorté par trop d’ennemis pour le moment. Rend toi devant le parking et poses cette bombe pour distraire les agents.", 0, GameplayEnum.Quote);
-                    Quest quest15 = new Quest( 2, "Poser une bombe au parking", 0, GameplayEnum.Order);
+                    Quest quest15 = new Quest( 2, "Poser une bombe au parking derrière la cache d'armes", 0, GameplayEnum.Order);
                     Quest quest16 = new Quest( 2, "“Attention, deux agents ! Élimine les !", 0, GameplayEnum.Quote);
                     Quest quest17 = new Quest( 2, "Éliminer les deux agents.", 2, GameplayEnum.Order);
-                    Quest quest18 = new Quest( 2, "Retourner poser une bombe au parking", 2, GameplayEnum.Order);
+                    Quest quest18 = new Quest( 2, "Poser une bombe sur la voiture", 2, GameplayEnum.Order);
                     Quest quest19 = new Quest( 2, "Bien. Eloignes-toi.", 0, GameplayEnum.Quote);
                     Quest quest20 = new Quest( 2, "Rendez vous à la bibliothèque et éliminez l’officier", 1, GameplayEnum.Order);
                     Quest quest21 = new Quest( 2, "L’officier n’est plus là. Il va falloir trouver mieux.", 0, GameplayEnum.Quote);

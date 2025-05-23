@@ -140,6 +140,9 @@ public class QuestManager : MonoBehaviour
 		    {
 			    CurrentQuest.isFinished = true;
 		    }
+		    
+		    if (CurrentQuest.Id == 18 && Input.inputString == "b")
+			    CurrentQuest.isFinished = true;
 
 		    if (CurrentQuest.Id == 20 && ColliderQuest20ScriptCon.IsTriggered)
 		    {
@@ -155,6 +158,8 @@ public class QuestManager : MonoBehaviour
 		    {
 			    CurrentQuest.isFinished = true;
 		    }
+		    
+		    
 			    
 			    
 			    
@@ -167,7 +172,7 @@ public class QuestManager : MonoBehaviour
 		    // Vérifier si la quête actuelle est finie
 		    if (CurrentQuest.isFinished)
 			    NextQuest();
-		    if (Input.inputString == "m")
+		    if (Input.inputString == "m" || Input.inputString == "k") // Si la map utilise déjà M, supprimer la première condition.
 		    {
 			    Debug.Log("Touche M pressée ! Passage à la quête suivante.");
 			    CurrentQuest.isFinished = true;
