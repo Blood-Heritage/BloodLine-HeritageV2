@@ -33,6 +33,7 @@ public class BulletProjectile : DestroyNetwork
         timer += Time.deltaTime;
         if (timer >= maxLife)
         {
+            bulletRigidBody.velocity = transform.forward * 0;
             DestroyOnNetwork();
         }
     }
@@ -43,7 +44,7 @@ public class BulletProjectile : DestroyNetwork
         if (other.gameObject.layer == IGNORE) return;
         
         // not enable the bullet to move anymore
-        bulletSpeed = 0f;   
+        bulletRigidBody.velocity = transform.forward * 0;
         DestroyOnNetwork();
         
         Instantiate(impactPrefab, transform.position, Quaternion.identity);
