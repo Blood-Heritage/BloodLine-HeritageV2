@@ -31,9 +31,13 @@ public class EnemyAI : MonoBehaviourPun
     
     public Vector3 spawnPoint;
     
+    private bool isDead => healthComponent.health <= 0f;
+    private HealthEnemy healthComponent;
+    
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        healthComponent = GetComponent<HealthEnemy>();
         spawnPoint = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
     }
 
@@ -60,6 +64,15 @@ public class EnemyAI : MonoBehaviourPun
     private void Update()
     {
         if (!photonView.IsMine) return;
+        if (isDead)
+        {
+            if (Velocity_Z > 0)
+            {
+                Velocity_Z -=  acceleration * Time.deltaTime * 4;
+                agent.speed = Velocity_Z;
+            }
+            else return;
+        }
         
         var numberPlayersInSight = Physics.OverlapSphere(transform.position, sightRange, WhatIsPlayer);
         var numberPlayersInAttack = Physics.OverlapSphere(transform.position, attackrange, WhatIsPlayer);
@@ -67,16 +80,16 @@ public class EnemyAI : MonoBehaviourPun
         if (numberPlayersInSight.Length != 0)
         {   
             player = GetClosestPlayer(numberPlayersInSight).transform;
-            if (Velocity_Z < 5f)
+            if (Velocity_Z < 4f)
                 Velocity_Z +=  acceleration * Time.deltaTime;
-            Math.Clamp(Velocity_Z, 2f, 5f);
+            Math.Clamp(Velocity_Z, 2f, 4f);
             playerInSightRange = true;
         }
         else
         {
             if (Velocity_Z > 2f)
                 Velocity_Z -=  acceleration * Time.deltaTime * 2;
-            Math.Clamp(Velocity_Z, 2f, 5f);
+            Math.Clamp(Velocity_Z, 2f, 4f);
             playerInSightRange = false;
         }
         

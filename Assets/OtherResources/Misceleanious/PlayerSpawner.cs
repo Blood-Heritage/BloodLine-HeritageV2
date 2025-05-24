@@ -48,6 +48,8 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
                 foreach (var followCamera in cameras)
                     followCamera.AssignTarget(player.transform);
                 
+                BARManager.Instance.AssignPlayer(player.GetPhotonView());
+                
                 // hyper chiant
                 // Camera CameraMinimap = minimapInstanance.GetComponentInChildren<Camera>();
                 // SetupCameraNav CanvasPlayer = player.GetComponentInChildren<SetupCameraNav>();

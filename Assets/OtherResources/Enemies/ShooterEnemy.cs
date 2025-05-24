@@ -43,7 +43,7 @@ public class ShooterEnemy : MonoBehaviourPun
         // PhotonNetwork.Instantiate("bullet", spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         
         // testing
-        Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        PhotonNetwork.Instantiate("bullet_5_damage", spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         
         // nextFire = 1 / fireRate;
     }

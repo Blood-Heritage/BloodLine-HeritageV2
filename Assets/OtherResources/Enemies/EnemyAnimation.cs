@@ -8,9 +8,12 @@ using UnityEngine.AI;
 public class EnemyAnimation : MonoBehaviourPun
 {
     private EnemyAI _enemyAI;
-    private Animator animator;
+    public Animator animator;
     private NavMeshAgent agent;
     private bool isAttacking => _enemyAI.isAtacking;
+    private bool isDead => healthComponent.health <= 0f;
+
+    private HealthEnemy healthComponent;
     
     int isShootingHash; 
     int velocityZHash;
@@ -26,22 +29,13 @@ public class EnemyAnimation : MonoBehaviourPun
             return NormalizeCustom(_enemyAI.Velocity_Z);
         }
     }
-
-    float Remap(float value, float inMin, float inMax, float outMin, float outMax)
-    {
-        return Mathf.Lerp(outMin, outMax, Mathf.InverseLerp(inMin, inMax, value));
-    }
-    
-    float NormalizeCustom(float value)
-    {
-        return Remap(value, 2f, 5f, 0.45f, 2.0f);
-    }
     
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         _enemyAI = GetComponent<EnemyAI>();
         animator = GetComponent<Animator>();
+        healthComponent = GetComponent<HealthEnemy>();
         
         velocityZHash = Animator.StringToHash("Velocity Z");
         isShootingHash = Animator.StringToHash("isShooting");
@@ -50,10 +44,29 @@ public class EnemyAnimation : MonoBehaviourPun
         ShootingLayer = animator.GetLayerIndex("Aim");
     }
 
+    float Remap(float value, float inMin, float inMax, float outMin, float outMax)
+    {
+        return Mathf.Lerp(outMin, outMax, Mathf.InverseLerp(inMin, inMax, value));
+    }
+    
+    float NormalizeCustom(float value)
+    {
+        return Remap(value, 2f, 4f, 0.45f, 2.0f);
+    }
+
     void Update()
     {
         if (!photonView.IsMine) return;
-        Animate();
+        if (isDead) ZeroAnimate();
+        else Animate();
+    }
+
+    public void ZeroAnimate()
+    {
+        animator.SetBool(isShootingHash, false);
+        animator.SetLayerWeight(TorsoLayer, 0.0f);
+        animator.SetLayerWeight(ShootingLayer, 0.0f);
+        animator.SetFloat(velocityZHash, 0f);
     }
 
     void Animate()
