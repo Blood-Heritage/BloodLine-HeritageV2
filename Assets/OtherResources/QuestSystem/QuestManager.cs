@@ -159,6 +159,12 @@ public class QuestManager : MonoBehaviour
 			    CurrentQuest.isFinished = true;
 		    }
 		    
+		    // Event Listeners for Ennemy Deaths
+		    if (CurrentQuest.Id == 4 && EnemyContainer.Instance.CountEnemies() <= 2)
+			    CurrentQuest.isFinished = true;
+		    if ((CurrentQuest.Id == 6 || CurrentQuest.Id == 10 || CurrentQuest.Id == 11 || CurrentQuest.Id == 12 || CurrentQuest.Id == 17 || CurrentQuest.Id == 26 || CurrentQuest.Id == 28) && EnemyContainer.Instance.CountEnemies() == 0)
+			    CurrentQuest.isFinished = true;
+		    
 		    
 		    // Vérifier si la quête actuelle est finie
 		    if (CurrentQuest.isFinished)
