@@ -52,7 +52,7 @@ public class BARManager : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            if (Input.GetKeyDown(KeyCode.Period))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 minimap.Toggle();
             }
