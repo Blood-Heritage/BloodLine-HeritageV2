@@ -27,6 +27,7 @@ public class ShooterEnemy : MonoBehaviourPun
     {
         // ignore if not the owner
         if (!photonView.IsMine) return;
+        if (enemy.isDead) return;
         
         nextFire -= Time.deltaTime;
         if (nextFire <= 0f && enemy.isAtacking)
