@@ -88,6 +88,10 @@ public class BARManager : MonoBehaviourPun
 
         if (statePause)
         {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                Time.timeScale = 0f;
+            }
             minimap.gameObject.SetActive(false);
             TexteQuests.SetActive(false);   
             
@@ -99,6 +103,7 @@ public class BARManager : MonoBehaviourPun
             minimap.gameObject.SetActive(true);
             TexteQuests.SetActive(ShowQuest);
             
+            Time.timeScale = 1f;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
