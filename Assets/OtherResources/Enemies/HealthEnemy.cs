@@ -23,8 +23,12 @@ public class HealthEnemy : IHealth
 
     private void Update()
     {
-        if (health <= 0f)
+        print("coucou test");
+        if (health <= 0f) {
+
+            print("coucou il meurt");
             Die();
+        }
     }
 
 

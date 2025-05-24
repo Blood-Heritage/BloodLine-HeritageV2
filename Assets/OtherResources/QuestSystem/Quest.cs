@@ -45,13 +45,13 @@ namespace QuestSystem {
        		 case 1:  // -
 		         break;
        		 case 2: // TODO : Faire spawn la cible
-		         var spawner = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(-42, 0, -95));
+		         var spawner = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(-42, 0, -95));
 		         spawner.Spawn();
 		         break;  // TODO : |
        		 case 3:   // TODO : Faire spawn les agents du FBI
-		         var SpawnFBI = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(-41, 0, -90));
+		         var SpawnFBI = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(-41, 0, -90));
 		         SpawnFBI.Spawn();// TODO : |
-		         var SpawnFBI5 =  new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(-35, 0, -122));
+		         var SpawnFBI5 =  new  QuestSystem.Spawner("FBI_Enemy", new Vector3(-35, 0, -122));
 		         SpawnFBI5.Spawn();
 		         break;
       		 case 4:  // -
@@ -71,15 +71,15 @@ namespace QuestSystem {
              case 9:  // TODO : -
 	             break;
              case 10: // TODO : Faire spawn le premier agent
-	             var SpawnFBI1 = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(-21, 0, -94));
+	             var SpawnFBI1 = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(-21, 0, -94));
 	             SpawnFBI1.Spawn();// TODO : |
 	             break;
              case 11: // TODO : Faire spawn le deuxième agent
-	             var SpawnFBI2 = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(190, 0, -5));
+	             var SpawnFBI2 = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(190, 0, -5));
 	             SpawnFBI2.Spawn();// TODO : |
 	             break;
              case 12: // TODO : Faire spawn le troisième agent
-	             var SpawnFBI3 = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(10, 0, 147));
+	             var SpawnFBI3 = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(10, 0, 147));
 	             SpawnFBI3.Spawn();// TODO : |
 	             break;
              case 13: // -
@@ -89,8 +89,8 @@ namespace QuestSystem {
              case 15: // TODO : Donner une bombe au joueur (juste sur l'UI?)
 	             break;
              case 16: // TODO : Faire spawn deux agents
-	             var Agent1 = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(70, 0, 89));
-	             var Agent2 = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(64, 0, 94));
+	             var Agent1 = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(70, 0, 89));
+	             var Agent2 = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(64, 0, 94));
 	             Agent1.Spawn();// TODO : |
 	             Agent2.Spawn();
 	             break;
@@ -119,13 +119,13 @@ namespace QuestSystem {
              case 25: // -
 	             break;
              case 26: // TODO : Faire spawn deux ennemis
-	             var Ennemie1 = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(59, 0, -18));
-	             var Ennemie2 = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(63, 0, -18));
+	             var Ennemie1 = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(59, 0, -18));
+	             var Ennemie2 = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(63, 0, -18));
 	             Ennemie1.Spawn();// TODO : |
 	             Ennemie2.Spawn();
 	             break;
              case 27: // TODO : Faire spawn le Boss
-	             var daBoss = new Spawner(GameObject.Find("SM_Veh_Car_Sedan_22"), new Vector3(60, 0, -20));
+	             var daBoss = new  QuestSystem.Spawner("FBI_Enemy", new Vector3(60, 0, -20));
 	             daBoss.Spawn();// TODO : |
 	             break;
              case 28: // -
