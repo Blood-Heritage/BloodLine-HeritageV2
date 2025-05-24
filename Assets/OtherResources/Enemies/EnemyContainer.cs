@@ -6,8 +6,8 @@ using Photon.Pun;
 
 public class EnemyContainer : MonoBehaviour
 {
-    public EnemyContainer Instance;
-
+    public static EnemyContainer Instance;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -21,6 +21,7 @@ public class EnemyContainer : MonoBehaviour
 
     public int CountEnemies()
     {
-        return 0;
+        EnemyAI[] enemies = GetComponentsInChildren<EnemyAI>();
+        return enemies.Length;
     }
 }

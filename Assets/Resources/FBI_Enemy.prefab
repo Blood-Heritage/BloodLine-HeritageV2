@@ -763,16 +763,16 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: isRunning
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: isWalking
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: isJumping
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isShooting
   - Type: 1
     SynchronizeType: 0
@@ -781,17 +781,17 @@ MonoBehaviour:
     SynchronizeType: 0
     Name: Velocity X
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: Velocity Z
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isDead
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 1
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 2
 --- !u!114 &-8807744986420919578
 MonoBehaviour:
@@ -927,7 +927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d421285988b19c08cbf8d46321a5aa4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 5612399138368131268}
 --- !u!65 &7504440480646559078
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -947,8 +947,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.70196867, y: 1.5778656, z: 0.46336365}
-  m_Center: {x: 0.0120174885, y: 1.1017685, z: -0.007980347}
+  m_Size: {x: 1.2315702, y: 1.9202499, z: 0.46336365}
+  m_Center: {x: 0.003045082, y: 1.1294594, z: -0.007980347}
 --- !u!1 &3084032557403333687
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +961,7 @@ GameObject:
   - component: {fileID: 7332685310689299619}
   - component: {fileID: 3947339241253489775}
   - component: {fileID: 3502704480810328270}
-  m_Layer: 20
+  m_Layer: 22
   m_Name: CanvasMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}

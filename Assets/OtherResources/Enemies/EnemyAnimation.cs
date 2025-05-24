@@ -34,7 +34,6 @@ public class EnemyAnimation : MonoBehaviourPun
     {
         agent = GetComponent<NavMeshAgent>();
         _enemyAI = GetComponent<EnemyAI>();
-        animator = GetComponent<Animator>();
         healthComponent = GetComponent<HealthEnemy>();
         
         velocityZHash = Animator.StringToHash("Velocity Z");

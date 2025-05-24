@@ -140,6 +140,9 @@ public class QuestManager : MonoBehaviour
 		    {
 			    CurrentQuest.isFinished = true;
 		    }
+		    
+		    if (CurrentQuest.Id == 18 && Input.inputString == "b")
+			    CurrentQuest.isFinished = true;
 
 		    if (CurrentQuest.Id == 20 && ColliderQuest20ScriptCon.IsTriggered)
 		    {
@@ -155,13 +158,6 @@ public class QuestManager : MonoBehaviour
 		    {
 			    CurrentQuest.isFinished = true;
 		    }
-			    
-			    
-			    
-		    
-		    
-		    
-		    
 		    
 		    
 		    // Vérifier si la quête actuelle est finie
