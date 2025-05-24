@@ -41,6 +41,12 @@ public class EnemyAI : MonoBehaviourPun
         spawnPoint = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
     }
 
+    private void Start()
+    {
+        // put enemy in Enemy Container
+        this.transform.SetParent(EnemyContainer.Instance.gameObject.transform, true);
+    }
+
     private GameObject GetClosestPlayer(Collider[] colliders)
     {
         GameObject closestPlayer = null;

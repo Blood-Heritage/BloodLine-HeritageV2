@@ -1,26 +1,27 @@
 ﻿using UnityEngine;
-
+using Photon.Pun; 
 
 namespace QuestSystem
 {
-    public class Spawner : MonoBehaviour
+    public class Spawner
     {
-        public GameObject Prefab;
+        public string prefabName;
         public Vector3 spawnPosition;
 
-        public Spawner(GameObject prefab, Vector3 spawnposition)
+        public Spawner(string prefabName, Vector3 spawnPosition)
         {
-            Prefab = prefab;
-            spawnPosition = spawnposition;
+            this.prefabName = prefabName;
+            this.spawnPosition = spawnPosition;
         }
 
         public void Spawn()
         {
-            Instantiate(Prefab, spawnPosition, Quaternion.identity);
+            PhotonNetwork.Instantiate(prefabName, spawnPosition, Quaternion.identity);
         }
-        
     }
-    
-    
-    
 }
+
+
+                
+
+
