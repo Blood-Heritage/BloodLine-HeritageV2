@@ -18,6 +18,18 @@ public class OrganizeObjectsEditor : EditorWindow
 
     void OnGUI()
     {
+        
+        searchPrefix = EditorGUILayout.TextField("Search Prefix:", searchPrefix);
+        parentName = EditorGUILayout.TextField("Parent Name:", parentName);
+
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("Organize Objects"))
+        {
+            OrganizeObjects();
+        }
+        
+        
         GUILayout.Label("Organize Objects in Hierarchy", EditorStyles.boldLabel);
         
         GUILayout.Space(20);
@@ -44,17 +56,6 @@ public class OrganizeObjectsEditor : EditorWindow
             {
                 currentRoot = navigationStack.Pop();
             }
-        }
-        
-        GUILayout.Space(30);
-        searchPrefix = EditorGUILayout.TextField("Search Prefix:", searchPrefix);
-        parentName = EditorGUILayout.TextField("Parent Name:", parentName);
-
-        GUILayout.Space(10);
-
-        if (GUILayout.Button("Organize Objects"))
-        {
-            OrganizeObjects();
         }
     }
 
