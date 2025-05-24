@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviourPun
     
     public Vector3 spawnPoint;
     
-    private bool isDead => healthComponent.health <= 0f;
+    public bool isDead => healthComponent.health <= 0f;
     private HealthEnemy healthComponent;
     
     private void Awake()
