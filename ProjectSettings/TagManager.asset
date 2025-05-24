@@ -16,8 +16,8 @@ TagManager:
   - 
   - 
   - NavMeshWalkable
-  - 
-  - 
+  - NPCsWalkable
+  - EnemyWalkable
   - 
   - 
   - 
