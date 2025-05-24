@@ -16,7 +16,7 @@ namespace QuestSystem {
         public GameplayEnum Type;
         public bool isFinished;
         public string FBI_Enemy_prefab_name = "FBI_Enemy";
-        public string Boss_name = "Boss_FBI";
+        public string Boss_name = "FBI_Boss_Enemy";
         
 		TextMeshProUGUI textNextMission = GameObject.Find("NextMission").GetComponent<TextMeshProUGUI>();
 		TextMeshProUGUI textPoserBomber = GameObject.Find("PoserBombe").GetComponent<TextMeshProUGUI>(); 
