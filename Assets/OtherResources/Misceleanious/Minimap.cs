@@ -16,6 +16,7 @@ public class Minimap : MonoBehaviour
         {
             Instance = this;
             BARManager.Instance.minimap = this;
+            camera = GetComponentInChildren<Camera>();
         }
         else
         {
