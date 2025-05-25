@@ -13,8 +13,12 @@ namespace QuestSystem
         
         public int RequestId() => _currentId++;
         
-        public void Reset() => _currentId = 1;
-        
+        public void Reset()
+        {
+            EnemyContainer.Instance.KillAllEnemies();
+            _currentId = 1;
+        }
+
         void Awake()
         {
             if (Instance == null)
