@@ -24,4 +24,11 @@ public class EnemyContainer : MonoBehaviour
         EnemyAI[] enemies = GetComponentsInChildren<EnemyAI>();
         return enemies.Length;
     }
+    
+    public void KillAllEnemies()
+    {
+        HealthEnemy[] enemies = GetComponentsInChildren<HealthEnemy>();
+        for (int i = 0; i < enemies.Length; i++)
+            enemies[i].DieToucheTriche();
+    }
 }

@@ -54,4 +54,10 @@ public class HealthEnemy : IHealth
         // PhotonNetwork.Destroy(gameObject);
         DestroyOnNetwork();
     }
+
+
+    public void DieToucheTriche()
+    {
+        DestroyOnNetwork();
+    }
 }

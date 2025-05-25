@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimColliderLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2149063735
   pfBulletProjectile: {fileID: 2472346435865199337, guid: 6b7168cb5e2d9fe4783a7888084d5955,
     type: 3}
   spawnBulletPosition: {fileID: 1100145105993725361}

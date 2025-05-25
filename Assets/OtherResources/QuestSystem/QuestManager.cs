@@ -58,21 +58,17 @@ public class QuestManager : MonoBehaviour
 		ColliderQuest8 = GameObject.Find("EventListenerQuest8");
 		ColliderQuest8ScriptCon = ColliderQuest8.GetComponent<ScriptCon>();
 		
-		
 		ColliderQuest15 = GameObject.Find("EventListenerQuest15");
 		ColliderQuest15ScriptCon = ColliderQuest15.GetComponent<ScriptCon>();
 		
 		ColliderQuest20 = GameObject.Find("EventListenerQuest20");
 		ColliderQuest20ScriptCon = ColliderQuest20.GetComponent<ScriptCon>();
 		
-				
 		ColliderQuest23 = GameObject.Find("EventListenerQuest23");
 		ColliderQuest23ScriptCon = ColliderQuest23.GetComponent<ScriptCon>();
 		
-						
 		ColliderQuest25 = GameObject.Find("EventListenerQuest25");
 		ColliderQuest25ScriptCon = ColliderQuest25.GetComponent<ScriptCon>();
-
 		
 		
 		// Debug.Log(ColliderQuest2ScriptCon == null);
@@ -95,12 +91,6 @@ public class QuestManager : MonoBehaviour
 		MissionTurboQueue.Enqueue(new Mission(3));
 		
 		
-		
-        
-        
-        
-        
-        
 		CurrentMission = MissionTurboQueue.Dequeue();
 		CurrentQuest = CurrentMission.QuestsQueue.Dequeue();
 		PrintQuest(); // Première Quête : Type Quote
@@ -169,6 +159,13 @@ public class QuestManager : MonoBehaviour
 		    // Vérifier si la quête actuelle est finie
 		    if (CurrentQuest.isFinished)
 			    NextQuest();
+
+		    if (Input.inputString == "k")
+		    {
+			    Debug.Log("Kill all enemies");
+			    EnemyContainer.Instance.KillAllEnemies();
+		    }
+		    
 		    if (Input.inputString == "m")
 		    {
 			    // Debug.Log("Touche M pressée ! Passage à la quête suivante.");
@@ -191,7 +188,5 @@ public class QuestManager : MonoBehaviour
 			QuestRegistry.Instance.Reset();
 			Start();	
        	}
-
-
     } 
 }
